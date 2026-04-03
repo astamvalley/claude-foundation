@@ -12,6 +12,14 @@ description: >
 사용자가 agentskills.io 스펙을 준수하는 고품질 스킬을 만들도록 안내한다.
 만들어진 스킬은 Claude Code, Cursor, VS Code Copilot, Gemini CLI 등 30개 이상의 도구에서 바로 사용 가능하다.
 
+## 참고 출처
+
+이 스킬은 아래 자료를 기반으로 작성됐다:
+- [agentskills.io/specification](https://agentskills.io/specification) — 공식 포맷 스펙
+- [agentskills.io/skill-creation/best-practices](https://agentskills.io/skill-creation/best-practices) — 스킬 제작 베스트 프랙티스
+- [agentskills.io/skill-creation/optimizing-descriptions](https://agentskills.io/skill-creation/optimizing-descriptions) — description 최적화
+- [agentskills.io/skill-creation/using-scripts](https://agentskills.io/skill-creation/using-scripts) — 스크립트 사용법
+
 ## 1단계: 요구사항 파악
 
 작성 전에 반드시 스킬의 목적을 이해한다. 다음을 물어보거나 추론한다.
