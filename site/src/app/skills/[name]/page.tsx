@@ -25,42 +25,43 @@ export default function SkillPage({ params }: { params: { name: string } }) {
     <main>
       <Link
         href="/"
-        className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300 transition-colors mb-10"
+        className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mb-12"
       >
         ← 돌아가기
       </Link>
 
-      <header className="mb-10">
-        <h1 className="font-mono text-2xl font-bold text-zinc-50 mb-3">{skill.name}</h1>
-        <p className="text-zinc-300 leading-relaxed whitespace-pre-line">{skill.longDescription}</p>
-        {skill.tags.length > 0 && (
-          <div className="flex gap-2 mt-4">
-            {skill.tags.map((tag) => (
-              <span key={tag} className="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+      <header className="mb-12 pb-8 border-b border-zinc-800">
+        <div className="flex items-center gap-3 mb-4">
+          <h1 className="font-mono text-xl font-semibold text-zinc-50">{skill.name}</h1>
+          {skill.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px] font-mono text-zinc-600 border border-zinc-800 px-1.5 py-0.5 rounded-sm uppercase tracking-wide"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <p className="text-zinc-400 text-sm leading-relaxed whitespace-pre-line">{skill.longDescription}</p>
       </header>
 
-      <section className="space-y-8">
+      <section className="space-y-10">
         <div>
-          <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-4">설치 / 다운로드</h2>
+          <p className="text-[11px] text-zinc-600 uppercase tracking-widest mb-4">설치</p>
           <div className="space-y-3">
             <div>
-              <p className="text-xs text-zinc-500 mb-2">npx로 에이전트에 바로 설치</p>
-              <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3">
-                <code className="font-mono text-sm text-zinc-300 flex-1 overflow-x-auto whitespace-nowrap">
+              <p className="text-xs text-zinc-600 mb-2 font-mono">npx — 에이전트에 바로 설치</p>
+              <div className="flex items-center gap-3 border border-zinc-800 rounded px-4 py-3 bg-zinc-900/50">
+                <code className="font-mono text-sm text-orange-300/90 flex-1 overflow-x-auto whitespace-nowrap">
                   {npxCmd}
                 </code>
                 <CopyButton text={npxCmd} />
               </div>
             </div>
             <div>
-              <p className="text-xs text-zinc-500 mb-2">curl로 파일만 다운로드</p>
-              <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3">
-                <code className="font-mono text-sm text-zinc-300 flex-1 overflow-x-auto whitespace-nowrap">
+              <p className="text-xs text-zinc-600 mb-2 font-mono">curl — 파일만 다운로드</p>
+              <div className="flex items-center gap-3 border border-zinc-800 rounded px-4 py-3 bg-zinc-900/50">
+                <code className="font-mono text-sm text-zinc-400 flex-1 overflow-x-auto whitespace-nowrap">
                   {curlCmd}
                 </code>
                 <CopyButton text={curlCmd} />
@@ -69,35 +70,35 @@ export default function SkillPage({ params }: { params: { name: string } }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex gap-2">
           <a
             href={rawSkillUrl}
             download="SKILL.md"
-            className="inline-flex items-center gap-2 text-sm bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-zinc-300 border border-zinc-800 hover:border-zinc-600 px-3 py-2 rounded transition-colors"
           >
-            ↓ SKILL.md 다운로드
+            ↓ SKILL.md
           </a>
           <a
             href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-4 py-2 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-zinc-300 border border-zinc-800 hover:border-zinc-600 px-3 py-2 rounded transition-colors"
           >
-            원본 레포 보기 ↗
+            GitHub ↗
           </a>
         </div>
 
         {skill.sources && skill.sources.length > 0 && (
           <div>
-            <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-4">참고 출처</h2>
-            <ul className="space-y-2">
+            <p className="text-[11px] text-zinc-600 uppercase tracking-widest mb-4">참고 출처</p>
+            <ul className="space-y-2.5">
               {skill.sources.map((s) => (
                 <li key={s.url}>
                   <a
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                    className="text-xs font-mono text-zinc-500 hover:text-orange-300 transition-colors"
                   >
                     {s.label} ↗
                   </a>

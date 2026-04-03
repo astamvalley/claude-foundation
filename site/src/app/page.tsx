@@ -7,64 +7,82 @@ export default function Home() {
 
   return (
     <main>
-      <header className="mb-14">
-        <div className="flex items-center gap-3 mb-3">
-          <h1 className="text-2xl font-mono font-bold text-zinc-50">claude-foundation</h1>
+      <header className="mb-16">
+        <div className="flex items-baseline justify-between mb-6">
+          <h1 className="text-xl font-mono font-semibold text-zinc-50 tracking-tight">
+            claude-foundation
+          </h1>
           <a
             href={`https://github.com/${REPO}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors border border-zinc-800 hover:border-zinc-600 px-2 py-0.5 rounded"
+            className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors font-mono"
           >
             GitHub ↗
           </a>
         </div>
-        <p className="text-zinc-400 mb-6">
-          Claude Code 및 호환 AI 에이전트를 위한 Agent Skills 모음
+
+        <p className="text-zinc-500 text-sm leading-relaxed mb-8 max-w-sm">
+          Claude Code 및 호환 AI 에이전트를 위한<br />
+          Agent Skills 모음
         </p>
+
         <div>
-          <p className="text-xs text-zinc-500 mb-1.5">전체 설치</p>
-          <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 max-w-lg">
-            <code className="font-mono text-sm text-zinc-300 flex-1">{installAll}</code>
+          <p className="text-[11px] text-zinc-600 uppercase tracking-widest mb-2">전체 설치</p>
+          <div className="flex items-center gap-3 border border-zinc-800 rounded px-4 py-3 bg-zinc-900/50">
+            <code className="font-mono text-sm text-orange-300/90 flex-1">{installAll}</code>
             <CopyButton text={installAll} />
           </div>
         </div>
       </header>
 
       <section>
-        <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-4">
-          스킬 — {skills.length}개
-        </h2>
-        <div className="flex flex-col gap-3">
-          {skills.map((skill) => (
-            <Link key={skill.name} href={`/skills/${skill.name}`} className="block">
-              <div className="group flex items-center justify-between bg-zinc-900 border border-zinc-800 rounded-lg px-5 py-4 hover:border-zinc-600 transition-all hover:bg-zinc-900/80">
-                <div className="flex items-center gap-4 min-w-0">
-                  <span className="font-mono text-sm font-medium text-zinc-100 shrink-0">
-                    {skill.name}
-                  </span>
-                  <span className="text-zinc-500 text-sm truncate hidden sm:block">
-                    {skill.description}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 shrink-0 ml-4">
-                  {skill.tags.map((tag) => (
-                    <span key={tag} className="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded hidden sm:block">
-                      {tag}
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[11px] text-zinc-600 uppercase tracking-widest">Skills</span>
+          <span className="text-[11px] text-zinc-700 font-mono">{skills.length}</span>
+        </div>
+        <div className="border-t border-zinc-800 mt-3">
+          {skills.map((skill, i) => (
+            <Link key={skill.name} href={`/skills/${skill.name}`}>
+              <div className="group flex items-start gap-5 py-5 border-b border-zinc-800/60 hover:border-zinc-700 transition-colors">
+                <span className="font-mono text-xs text-zinc-700 pt-0.5 w-4 shrink-0 select-none">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 mb-1.5">
+                    <span className="font-mono text-sm font-medium text-zinc-100 group-hover:text-orange-300 transition-colors">
+                      {skill.name}
                     </span>
-                  ))}
-                  <span className="text-zinc-600 group-hover:text-zinc-400 transition-colors">→</span>
+                    <div className="flex gap-1.5">
+                      {skill.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[10px] font-mono text-zinc-600 border border-zinc-800 px-1.5 py-0.5 rounded-sm uppercase tracking-wide"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-snug">{skill.description}</p>
                 </div>
+                <span className="text-zinc-700 group-hover:text-zinc-400 transition-colors text-sm pt-0.5 shrink-0">
+                  →
+                </span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <footer className="mt-16 text-xs text-zinc-600 flex items-center gap-2">
+      <footer className="mt-14 flex items-center justify-between text-[11px] text-zinc-700">
         <span>agentskills.io 호환</span>
-        <span>·</span>
-        <a href="https://skills.sh" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors">
+        <a
+          href="https://skills.sh"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-zinc-500 transition-colors"
+        >
           skills.sh ↗
         </a>
       </footer>
