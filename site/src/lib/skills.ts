@@ -32,4 +32,13 @@ export const skills: Skill[] = [
       { label: 'skills.sh — Vercel Labs 배포 사례', url: 'https://skills.sh/vercel-labs/agent-skills' },
     ],
   },
+  {
+    name: 'configure-notifications',
+    description: 'Claude Code 알림 설정/제거 위자드. macOS 시스템 알림과 Slack 웹훅을 대화형으로 설정한다.',
+    longDescription:
+      'Claude가 작업을 완료하거나 입력 대기 시 알림을 받도록 설정한다.\n' +
+      '현재 설정 상태를 확인하고 macOS 시스템 알림 또는 Slack 웹훅을 설정/제거할 수 있다.\n' +
+      '이미 설정된 항목은 ✓ 표시로 구분되며, 선택 시 제거 옵션을 제공한다.',
+    tags: ['notification', 'setup'],
+  },
 ]
