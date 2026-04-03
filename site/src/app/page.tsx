@@ -35,7 +35,7 @@ export default function Home() {
         <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-4">
           스킬 — {skills.length}개
         </h2>
-        <div className="space-y-2">
+        <div className="space-y-3">
           {skills.map((skill) => (
             <Link key={skill.name} href={`/skills/${skill.name}`}>
               <div className="group flex items-center justify-between bg-zinc-900 border border-zinc-800 rounded-lg px-5 py-4 hover:border-zinc-600 transition-all hover:bg-zinc-900/80">
