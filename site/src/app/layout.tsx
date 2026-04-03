@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const metadata: Metadata = {
   title: 'claude-foundation',
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="ko" className={`${inter.variable} ${mono.variable}`}>
       <body className="bg-zinc-950 text-zinc-100 min-h-screen font-sans antialiased">
         <div className="max-w-3xl mx-auto px-5 py-14">{children}</div>
       </body>
