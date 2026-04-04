@@ -33,6 +33,20 @@ export const skills: Skill[] = [
     ],
   },
   {
+    name: 'auto-commit',
+    description: '커밋 컨벤션 기반 커밋 자동화. 변경 사항을 분석해 작업별로 커밋을 나누고 사용자 확인 후 실행한다.',
+    longDescription:
+      '변경된 코드를 분석해 커밋 컨벤션(feat/fix/refactor 등)에 맞는 메시지를 자동 생성한다.\n' +
+      '작업별 커밋 그룹핑, 위험 파일 감지, 브랜치명 자동 삽입, 단계별 확인 위자드를 포함한다.\n' +
+      'Task 목록을 참고해 Why(변경 동기)와 What(특이 함수 명시)을 body에 자동으로 채운다.',
+    tags: ['git', 'commit', 'automation'],
+    sources: [
+      { label: '커밋 컨벤션 가이드', url: 'https://velog.io/@ninto_2/%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98' },
+      { label: 'Conventional Commits 공식 스펙', url: 'https://www.conventionalcommits.org/en/v1.0.0/' },
+      { label: 'Git commit message best practices', url: 'https://cbea.ms/git-commit/' },
+    ],
+  },
+  {
     name: 'configure-notifications',
     description: 'Claude Code 알림 설정/제거 위자드. macOS 시스템 알림과 Slack 웹훅을 대화형으로 설정한다.',
     longDescription:
