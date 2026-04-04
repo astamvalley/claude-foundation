@@ -41,7 +41,7 @@ export const skills: Skill[] = [
       'Task 목록을 참고해 Why(변경 동기)와 What(특이 함수 명시)을 body에 자동으로 채운다.',
     tags: ['git', 'commit', 'automation'],
     sources: [
-      { label: '커밋 컨벤션 가이드', url: 'https://velog.io/@ninto_2/%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98' },
+      { label: 'Angular Commit Message Guidelines', url: 'https://github.com/angular/angular/blob/main/CONTRIBUTING.md' },
       { label: 'Conventional Commits 공식 스펙', url: 'https://www.conventionalcommits.org/en/v1.0.0/' },
       { label: 'Git commit message best practices', url: 'https://cbea.ms/git-commit/' },
     ],
