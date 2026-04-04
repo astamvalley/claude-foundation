@@ -7,13 +7,15 @@ export function generateStaticParams() {
   return skills.map((s) => ({ name: s.name }))
 }
 
-export function generateMetadata({ params }: { params: { name: string } }) {
-  const skill = skills.find((s) => s.name === params.name)
+export async function generateMetadata({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = await params
+  const skill = skills.find((s) => s.name === name)
   return { title: skill ? `${skill.name} — claude-foundation` : 'Not Found' }
 }
 
-export default function SkillPage({ params }: { params: { name: string } }) {
-  const skill = skills.find((s) => s.name === params.name)
+export default async function SkillPage({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = await params
+  const skill = skills.find((s) => s.name === name)
   if (!skill) notFound()
 
   const npxCmd = `npx skills add ${REPO} --skill ${skill.name} -a claude-code`

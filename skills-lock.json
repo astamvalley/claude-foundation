@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "auto-commit": {
+      "source": "astamvalley/claude-foundation",
+      "sourceType": "github",
+      "computedHash": "44217b217ea65750b27232ad9fe48dad23a9750e2876f6b558d122d0079e612d"
+    }
+  }
+}
