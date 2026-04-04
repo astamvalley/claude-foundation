@@ -7,7 +7,7 @@ description: >
   git commit, conventional commit, 커밋 자동화는 이 스킬을 사용한다.
 disable-model-invocation: true
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # auto-commit
@@ -158,7 +158,9 @@ chore: [feature/TEST-1234] update dependencies
 
 ## 4단계: 진행 방식 확인
 
-`AskUserQuestion` (free_form 포함)으로 진행 방식을 선택받는다.
+커밋이 **1개**면 이 단계를 건너뛰고 바로 5단계로 진행한다.
+
+커밋이 **2개 이상**일 때만 `AskUserQuestion` (free_form 포함)으로 진행 방식을 선택받는다.
 선택지 텍스트는 아래를 그대로 사용한다.
 
 ```
