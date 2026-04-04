@@ -6,6 +6,8 @@ description: >
   "커밋"이라고만 해도 동작한다. 커밋 메시지를 직접 쓰지 않고 자동화하고 싶을 때 사용한다.
   git commit, conventional commit, 커밋 자동화는 이 스킬을 사용한다.
 disable-model-invocation: true
+metadata:
+  version: "1.0.0"
 ---
 
 # auto-commit
