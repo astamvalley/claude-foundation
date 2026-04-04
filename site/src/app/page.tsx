@@ -75,16 +75,28 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="mt-14 flex items-center justify-between text-[11px] text-zinc-700">
-        <span>agentskills.io 호환</span>
-        <a
-          href="https://skills.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-zinc-500 transition-colors"
-        >
-          skills.sh ↗
-        </a>
+      <footer className="mt-14 text-[11px] text-zinc-700">
+        <div className="flex items-center justify-between mb-3">
+          <span>agentskills.io 호환</span>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/anthropics/skills"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-500 transition-colors"
+            >
+              Anthropic 공식 스킬 ↗
+            </a>
+            <a
+              href="https://skills.sh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-500 transition-colors"
+            >
+              skills.sh ↗
+            </a>
+          </div>
+        </div>
       </footer>
     </main>
   )
