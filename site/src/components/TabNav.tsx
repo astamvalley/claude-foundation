@@ -7,7 +7,8 @@ export default function TabNav() {
   const pathname = usePathname()
   const isExternal = pathname.startsWith('/external')
   const isPlugins = pathname.startsWith('/plugins')
-  const isHome = !isExternal && !isPlugins
+  const isMcp = pathname.startsWith('/mcp')
+  const isHome = !isExternal && !isPlugins && !isMcp
 
   return (
     <div className="flex gap-0 border-b border-zinc-800 mb-8">
@@ -40,6 +41,16 @@ export default function TabNav() {
         }`}
       >
         Plugins
+      </Link>
+      <Link
+        href="/mcp"
+        className={`text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
+          isMcp
+            ? 'border-orange-400 text-zinc-100'
+            : 'border-transparent text-zinc-600 hover:text-zinc-400'
+        }`}
+      >
+        MCP
       </Link>
     </div>
   )
