@@ -1,8 +1,8 @@
 # claude-foundation
 
-Claude Code 및 agentskills.io 호환 에이전트를 위한 Agent Skills 모음입니다.
+Claude Code를 위한 Skills · Plugins 모음입니다.
 
-## 스킬 목록
+## Skills
 
 | 스킬 | 설명 |
 |------|------|
@@ -10,10 +10,18 @@ Claude Code 및 agentskills.io 호환 에이전트를 위한 Agent Skills 모음
 | [auto-commit](skills/auto-commit/) | 변경사항을 분석해 커밋 메시지 자동 생성 및 커밋 실행 |
 | [configure-notifications](skills/configure-notifications/) | macOS 시스템 알림 · Slack 웹훅 알림 설정 |
 
+## Plugins
+
+Claude Code에 설치해 사용하는 서드파티 플러그인을 정리합니다.
+
+| 플러그인 | 설명 |
+|----------|------|
+| codex | Claude Code 안에서 Codex로 코드 리뷰를 받거나 작업을 위임하는 플러그인 (OpenAI) |
+
 ## 설치
 
 ```bash
-# 전체 설치
+# 전체 스킬 설치
 npx skills add astamvalley/claude-foundation
 
 # 특정 스킬만 설치
@@ -30,7 +38,7 @@ claude-foundation/
 │   ├── create-skill/
 │   ├── auto-commit/
 │   └── configure-notifications/
-└── site/          # skills.sh 스타일 스킬 브라우저 (Next.js)
+└── site/          # Skills · Plugins 브라우저 (Next.js)
 ```
 
 ## 호환 도구

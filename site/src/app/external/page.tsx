@@ -21,8 +21,7 @@ export default function ExternalPage() {
         </div>
 
         <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-          Claude Code 및 호환 AI 에이전트를 위한<br />
-          Agent Skills 모음
+          Claude Code를 위한 Skills · Plugins 모음
         </p>
       </header>
 
