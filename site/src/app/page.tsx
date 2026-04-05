@@ -13,14 +13,24 @@ export default function Home() {
           <h1 className="text-xl font-mono font-semibold text-zinc-50 tracking-tight">
             claude-foundation
           </h1>
-          <a
-            href={`https://github.com/${REPO}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors font-mono"
-          >
-            GitHub ↗
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://astamvalley.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors font-mono"
+            >
+              astamvalley ↗
+            </a>
+            <a
+              href={`https://github.com/${REPO}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors font-mono"
+            >
+              GitHub ↗
+            </a>
+          </div>
         </div>
 
         <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
