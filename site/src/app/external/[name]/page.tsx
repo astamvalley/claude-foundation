@@ -21,7 +21,7 @@ export default async function ExternalSkillPage({ params }: { params: Promise<{ 
   const npxCmd = `npx skills add ${skill.repo} -g -y`
 
   return (
-    <main>
+    <>
       <Link
         href="/external"
         className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mb-12"
@@ -30,7 +30,7 @@ export default async function ExternalSkillPage({ params }: { params: Promise<{ 
       </Link>
 
       <header className="mb-12 pb-8 border-b border-zinc-800">
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
           <h1 className="font-mono text-xl font-semibold text-zinc-50">{skill.name}</h1>
           {skill.tags.map((tag) => (
             <span
@@ -70,6 +70,6 @@ export default async function ExternalSkillPage({ params }: { params: Promise<{ 
           </a>
         </div>
       </section>
-    </main>
+    </>
   )
 }

@@ -24,7 +24,7 @@ export default async function SkillPage({ params }: { params: Promise<{ name: st
   const rawSkillUrl = `${RAW_BASE}/skills/${skill.name}/SKILL.md`
 
   return (
-    <main>
+    <>
       <Link
         href="/"
         className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mb-12"
@@ -33,7 +33,7 @@ export default async function SkillPage({ params }: { params: Promise<{ name: st
       </Link>
 
       <header className="mb-12 pb-8 border-b border-zinc-800">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex flex-wrap items-center gap-2 mb-4">
           <h1 className="font-mono text-xl font-semibold text-zinc-50">{skill.name}</h1>
           {skill.tags.map((tag) => (
             <span
@@ -110,6 +110,6 @@ export default async function SkillPage({ params }: { params: Promise<{ name: st
           </div>
         )}
       </section>
-    </main>
+    </>
   )
 }

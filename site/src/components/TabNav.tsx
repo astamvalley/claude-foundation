@@ -11,10 +11,10 @@ export default function TabNav() {
   const isHome = !isExternal && !isPlugins && !isMcp
 
   return (
-    <div className="flex gap-0 border-b border-zinc-800 mb-8">
+    <div className="flex gap-0 overflow-x-auto border-b border-zinc-800 mb-8 scrollbar-none">
       <Link
         href="/"
-        className={`text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
+        className={`whitespace-nowrap text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
           isHome
             ? 'border-orange-400 text-zinc-100'
             : 'border-transparent text-zinc-600 hover:text-zinc-400'
@@ -24,7 +24,7 @@ export default function TabNav() {
       </Link>
       <Link
         href="/external"
-        className={`text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
+        className={`whitespace-nowrap text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
           isExternal
             ? 'border-orange-400 text-zinc-100'
             : 'border-transparent text-zinc-600 hover:text-zinc-400'
@@ -34,7 +34,7 @@ export default function TabNav() {
       </Link>
       <Link
         href="/plugins"
-        className={`text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
+        className={`whitespace-nowrap text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
           isPlugins
             ? 'border-orange-400 text-zinc-100'
             : 'border-transparent text-zinc-600 hover:text-zinc-400'
@@ -44,7 +44,7 @@ export default function TabNav() {
       </Link>
       <Link
         href="/mcp"
-        className={`text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
+        className={`whitespace-nowrap text-xs font-mono px-4 py-2 border-b-2 transition-colors ${
           isMcp
             ? 'border-orange-400 text-zinc-100'
             : 'border-transparent text-zinc-600 hover:text-zinc-400'

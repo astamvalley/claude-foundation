@@ -19,7 +19,7 @@ export default async function McpPage({ params }: { params: Promise<{ name: stri
   if (!mcp) notFound()
 
   return (
-    <main>
+    <>
       <Link
         href="/mcp"
         className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mb-12"
@@ -28,7 +28,7 @@ export default async function McpPage({ params }: { params: Promise<{ name: stri
       </Link>
 
       <header className="mb-12 pb-8 border-b border-zinc-800">
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
           <h1 className="font-mono text-xl font-semibold text-zinc-50">{mcp.displayName}</h1>
           {mcp.tags.map((tag) => (
             <span
@@ -69,7 +69,7 @@ export default async function McpPage({ params }: { params: Promise<{ name: stri
         <div className="space-y-8">
           {mcp.setup.map((s) => (
             <div key={s.target}>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
                 <p className="text-[11px] text-zinc-600 uppercase tracking-widest">{s.target}</p>
               </div>
               <p className="text-xs text-zinc-600 mb-3 font-mono leading-relaxed">{s.description}</p>
@@ -122,6 +122,6 @@ export default async function McpPage({ params }: { params: Promise<{ name: stri
           </a>
         </div>
       </section>
-    </main>
+    </>
   )
 }

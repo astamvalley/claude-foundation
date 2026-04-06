@@ -19,7 +19,7 @@ export default async function PluginPage({ params }: { params: Promise<{ name: s
   if (!plugin) notFound()
 
   return (
-    <main>
+    <>
       <Link
         href="/plugins"
         className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mb-12"
@@ -28,7 +28,7 @@ export default async function PluginPage({ params }: { params: Promise<{ name: s
       </Link>
 
       <header className="mb-12 pb-8 border-b border-zinc-800">
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
           <h1 className="font-mono text-xl font-semibold text-zinc-50">{plugin.name}</h1>
           {plugin.tags.map((tag) => (
             <span
@@ -83,7 +83,7 @@ export default async function PluginPage({ params }: { params: Promise<{ name: s
           <div className="space-y-8">
             {plugin.commands.map((cmd) => (
               <div key={cmd.name} className="border-l border-zinc-800 pl-5">
-                <div className="flex items-center gap-3 mb-2">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
                   <code className="font-mono text-sm font-semibold text-orange-300/90">{cmd.name}</code>
                 </div>
                 <p className="text-sm text-zinc-400 leading-relaxed mb-3">{cmd.description}</p>
@@ -117,6 +117,6 @@ export default async function PluginPage({ params }: { params: Promise<{ name: s
           </a>
         </div>
       </section>
-    </main>
+    </>
   )
 }
