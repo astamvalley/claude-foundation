@@ -125,6 +125,7 @@ export const plugins: Plugin[] = [
     requirements: [
       'Claude Code v2.1.83 이상',
       'Node.js 18 이상',
+      'CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 — settings.json env 설정 후 Claude Code 완전 재시작 필요 (멀티 AI 오케스트레이션 필수 조건)',
       '외부 프로바이더 없이도 동작 — Claude 기본 내장',
       '선택: Codex CLI, Gemini CLI, GitHub Copilot, Qwen API Key, Ollama(로컬), Perplexity API Key, OpenRouter API Key',
     ],
@@ -132,6 +133,8 @@ export const plugins: Plugin[] = [
       '/plugin marketplace add https://github.com/nyldn/claude-octopus.git',
       '/plugin install octo@nyldn-plugins',
       '/octo:setup',
+      'settings.json에 env: { CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: "1" } 추가',
+      'Claude Code 완전 재시작 (새 대화 열기만으로는 적용 안 됨)',
     ],
     commands: [
       {
@@ -156,6 +159,7 @@ export const plugins: Plugin[] = [
           '/octo:embrace "사용자 인증 시스템 구현"',
           '/octo:embrace "결제 API 리팩토링" --providers claude,codex,gemini',
         ],
+        note: 'Agent Teams 비활성화 상태에서는 프롬프트가 백그라운드 서브프로세스에 전달되지 않아 모든 에이전트가 조용히 종료된다(completion_ratio 0.00). /octo:doctor에서 "Agent Teams supported but not enabled" 메시지가 보이면 실행 전 반드시 해결할 것.',
       },
       {
         name: '/octo:discover',
@@ -257,7 +261,7 @@ export const plugins: Plugin[] = [
         name: '/octo:doctor',
         description: '환경 진단 도구. 프로바이더 연결 상태, 인증, 버전 호환성을 점검하고 토큰 최적화 팁을 제공한다. octo-compress 파이프(bin/octo-compress) 설치도 안내하며, PostToolUse 훅과 연동해 세션당 약 7,300 토큰을 자동으로 절약한다.',
         examples: ['/octo:doctor'],
-        note: '문제가 생겼을 때 먼저 실행한다. --verbose 플래그로 상세 로그를 확인할 수 있으며, 로그는 ~/.claude-octopus/logs/에 저장된다.',
+        note: '문제가 생겼을 때 먼저 실행한다. --verbose 플래그로 상세 로그를 확인할 수 있으며, 로그는 ~/.claude-octopus/logs/에 저장된다. "Agent Teams supported but not enabled" 메시지가 나오면 settings.json에 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 추가 후 완전 재시작 — /octo:embrace가 실제로 작동하려면 이 설정이 필수다.',
       },
     ],
     githubUrl: 'https://github.com/nyldn/claude-octopus',
