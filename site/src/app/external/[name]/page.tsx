@@ -23,7 +23,7 @@ export default async function ExternalSkillPage({ params }: { params: Promise<{ 
   return (
     <>
       <Link
-        href="/external"
+        href="/"
         className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-zinc-400 transition-colors mb-12"
       >
         ← 돌아가기
