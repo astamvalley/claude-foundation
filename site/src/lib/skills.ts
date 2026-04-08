@@ -47,6 +47,16 @@ export const skills: Skill[] = [
     ],
   },
   {
+    name: 'branch-cleanup',
+    description: '워크스페이스 내 머지 완료된 로컬 브랜치를 일괄 정리한다. 리모트는 건드리지 않고 로컬 브랜치만 안전하게 삭제한다.',
+    longDescription:
+      '워크스페이스 루트 아래 git 프로젝트들을 자동으로 탐색하고, 각 프로젝트에서 메인 브랜치 또는 장기 피처 브랜치에 머지된 로컬 브랜치를 찾아 일괄 삭제한다.\n' +
+      '삭제 전 프로젝트별 리포트를 출력하고 사용자 확인을 받는다.\n\n' +
+      '`git branch -d`(안전 삭제)만 사용하며 리모트는 절대 건드리지 않는다.\n' +
+      'squash merge된 브랜치(리모트 gone + main 미머지) 감지, ahead 브랜치 자동 보호, 프로젝트별 병렬 실행을 지원한다.',
+    tags: ['git', 'branch', 'cleanup', 'automation'],
+  },
+  {
     name: 'configure-notifications',
     description: 'Claude Code 알림 설정/제거 위자드. macOS 시스템 알림과 Slack 웹훅을 대화형으로 설정한다.',
     longDescription:
