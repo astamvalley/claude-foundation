@@ -399,25 +399,29 @@ export const mcps: Mcp[] = [
       },
     ],
     alternative: {
-      name: 'Atlassian CLI',
+      name: 'Atlassian CLI (ACLI)',
       description:
-        'Jira 작업에 한해 CLI 도구를 대안으로 쓸 수 있다.\n' +
-        'go-jira를 설치하면 Claude Code가 Bash를 통해 Jira 이슈를 조회·생성·업데이트할 수 있다.\n\n' +
-        '단, Confluence는 지원하지 않으며 Jira 전용이다.',
+        'Jira 작업에 한해 Atlassian 공식 CLI(ACLI)를 대안으로 쓸 수 있다.\n' +
+        'ACLI는 Atlassian이 직접 만들고 관리하는 공식 도구로, 모든 Jira Cloud 플랜에서 무료로 사용할 수 있다(2025년 GA).\n' +
+        'Claude Code가 Bash를 통해 Jira 이슈를 조회·생성·업데이트하는 스크립트를 실행할 수 있다.\n\n' +
+        '단, Confluence는 CLI로 지원하지 않으며 Jira 전용이다.\n\n' +
+        '이전에 go-jira(go-jira/jira)가 대안으로 자주 언급되었으나, 커뮤니티 유지보수 수준이 낮고 현업 채택률이 저조하여 공식 ACLI로 대체하는 것을 권장한다.',
       setup: [
         {
           target: 'macOS',
-          description: 'Homebrew로 go-jira CLI를 설치한다.',
+          description: 'Atlassian 공식 Homebrew tap을 추가하고 ACLI를 설치한다.',
           type: 'cmd',
           label: 'terminal',
-          code: 'brew install go-jira',
+          code: 'brew tap atlassian/acli\nbrew install atlassian/acli/acli',
         },
         {
           target: '로그인',
-          description: '~/.config/jira/config.yml 에 Atlassian 도메인과 이메일을 설정하거나 아래 명령으로 인증한다.',
+          description:
+            'atlassian.com/manage-profile/security/api-tokens 에서 API 토큰을 발급한 뒤 아래 명령으로 인증한다.\n' +
+            'your-site, you@example.com, 토큰을 실제 값으로 교체하세요.',
           type: 'cmd',
           label: 'terminal',
-          code: 'jira session login --endpoint=https://your-company.atlassian.net --user=you@example.com',
+          code: 'acli jira auth login --site "your-site.atlassian.net" --email "you@example.com" --token',
         },
       ],
     },
