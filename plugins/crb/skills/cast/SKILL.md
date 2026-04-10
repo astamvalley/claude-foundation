@@ -7,7 +7,7 @@ description: >
   단순 질문이나 코딩 작업에는 사용하지 않는다.
 disable-model-invocation: true
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   plugin: crb
 ---
 
@@ -27,6 +27,32 @@ metadata:
 
 ### ① Explore — 병렬 다각도 분석
 
+**사전 준비: 사용 가능한 모델 확인**
+
+Explore 시작 전에 아래를 병렬로 확인한다:
+
+```bash
+# Codex 인증 확인
+codex auth status 2>/dev/null || echo $OPENAI_API_KEY
+
+# Gemini 인증 확인
+gemini auth status 2>/dev/null
+```
+
+확인 결과로 Explore 구성을 결정한다:
+
+| 상황 | Agent A | Agent B | Agent C |
+|------|---------|---------|---------|
+| Codex + Gemini 모두 인증됨 | Claude | Codex | Gemini |
+| Codex만 인증됨 | Claude | Codex | Claude |
+| Gemini만 인증됨 | Claude | Gemini | Claude |
+| 둘 다 없음 | Claude | Claude | Claude |
+
+구성을 사용자에게 한 줄로 알린다:
+```
+🔍 Explore 시작 — Claude + Codex + Gemini
+```
+
 **렌즈 선택 (동적)**
 
 주제를 보고 가장 적합한 3개의 렌즈를 직접 선택한다. 예시:
@@ -42,22 +68,21 @@ metadata:
 
 **병렬 실행**
 
-선택한 3개 렌즈를 각각 독립 Agent로 동시 스폰한다:
+결정된 구성에 따라 3개를 동시에 실행한다:
 
+- **Claude 슬롯**: Agent 도구로 독립 컨텍스트 스폰
+- **Codex 슬롯**: `codex "<렌즈> 관점으로 <주제> 분석해줘. 핵심 질문 3개, 주요 기회와 리스크, 핵심 제약이나 가정을 포함해서."`
+- **Gemini 슬롯**: `gemini -p "<렌즈> 관점으로 <주제> 분석해줘. 핵심 질문 3개, 주요 기회와 리스크, 핵심 제약이나 가정을 포함해서."`
+
+각 슬롯의 프롬프트 구조:
 ```
-Agent A: [렌즈1] 관점으로 <주제> 분석
-  - 이 렌즈에서 가장 중요한 질문 3개
-  - 주요 기회와 리스크
-  - 핵심 제약이나 가정
-
-Agent B: [렌즈2] 관점으로 <주제> 분석
-  (동일 구조)
-
-Agent C: [렌즈3] 관점으로 <주제> 분석
-  (동일 구조)
+[렌즈] 관점으로 <주제>를 분석해줘.
+- 이 렌즈에서 가장 중요한 질문 3개
+- 주요 기회와 리스크
+- 핵심 제약이나 가정
 ```
 
-각 Agent는 서로의 결과를 보지 못하도록 독립 컨텍스트로 실행한다.
+Codex/Gemini 실행 중 오류 발생 시 Claude로 조용히 대체하고 계속 진행한다.
 
 ---
 
@@ -104,11 +129,8 @@ Frame 결과를 바탕으로 실행 가능한 방향을 제시한다:
 
 Design 결과를 비판적으로 검토한다.
 
-**Codex 사용 가능 시** (`which codex` 성공):
-Codex를 독립 리뷰어로 스폰해 Design에 대한 반론을 요청한다.
-
-**Codex 없을 시**:
-Claude Agent를 "회의적인 시니어 리뷰어" 페르소나로 스폰한다.
+**Codex 인증됨**: Codex를 독립 리뷰어로 실행해 Design에 대한 반론을 요청한다.
+**Codex 없을 시**: Claude Agent를 "회의적인 시니어 리뷰어" 페르소나로 스폰한다.
 
 리뷰 관점:
 - 이 계획이 실패하는 가장 가능성 높은 시나리오
@@ -128,6 +150,7 @@ Challenge 결과에 따라 Design을 수정하거나 최종 출력에 "주의사
 
 생성일: <날짜>
 렌즈: <렌즈1> / <렌즈2> / <렌즈3>
+Explore 구성: <Agent A 모델> / <Agent B 모델> / <Agent C 모델>
 
 ## 합의 영역
 ...
@@ -152,8 +175,9 @@ Challenge 결과에 따라 Design을 수정하거나 최종 출력에 "주의사
 
 ## Gotchas
 
-- Explore Agent들은 반드시 서로 독립적으로 스폰할 것 — 순차 실행 금지
+- Explore Agent들은 반드시 동시에 실행할 것 — 순차 실행 금지
 - 렌즈는 매번 주제에 맞게 새로 선택할 것 — 고정 렌즈 재사용 금지
+- Codex/Gemini 실행 오류는 에러로 표시하지 말고 Claude로 조용히 대체할 것
 - Frame에서 합의가 없어도 진행할 것 — 긴장점 자체가 Design의 재료
 - `crucible-output.md`가 이미 있으면 덮어쓰기 전 확인할 것
 - Challenge는 Design을 무너뜨리는 게 목적이 아님 — 더 단단하게 만드는 것
