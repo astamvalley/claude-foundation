@@ -98,8 +98,22 @@ Frame 결과를 바탕으로 실행 가능한 방향을 제시한다:
 
 Design 결과를 비판적으로 검토한다.
 
-**Codex 인증됨**: Codex를 독립 리뷰어로 실행해 Design에 대한 반론을 요청한다.
-**Codex 없을 시**: Claude Agent를 "회의적인 시니어 리뷰어" 페르소나로 스폰한다.
+Codex 실행 우선순위:
+
+1. **Claude Code Codex 플러그인 런타임** (최우선):
+   ```bash
+   CODEX_COMPANION=$(find ~/.claude/plugins -name "codex-companion.mjs" 2>/dev/null | head -1)
+   if [ -n "$CODEX_COMPANION" ]; then
+     node "$CODEX_COMPANION" task "<리뷰 프롬프트>"
+   fi
+   ```
+
+2. **Codex CLI** (플러그인 없을 때):
+   ```bash
+   codex exec --full-auto "IMPORTANT: Non-interactive subagent. Do not ask questions. <리뷰 프롬프트>"
+   ```
+
+3. **Claude Agent** (Codex 전혀 없을 때): "회의적인 시니어 리뷰어" 페르소나로 스폰한다.
 
 리뷰 관점:
 - 이 계획이 실패하는 가장 가능성 높은 시나리오

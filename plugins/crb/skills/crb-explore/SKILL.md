@@ -13,8 +13,8 @@ cast 커맨드의 Explore 단계에서만 사용한다.
 Explore 시작 전 아래를 병렬로 확인한다:
 
 ```bash
-codex auth status 2>/dev/null || echo $OPENAI_API_KEY
-gemini auth status 2>/dev/null
+codex login status 2>/dev/null
+[ -f "$HOME/.gemini/oauth_creds.json" ] && echo "gemini:authenticated" || echo "gemini:not-authenticated"
 ```
 
 결과에 따라 구성을 결정한다:
@@ -47,16 +47,23 @@ Explore 구성: Claude / Codex / Gemini
 결정된 구성에 따라 3개를 동시에 실행한다. **순차 실행 금지.**
 
 - **Claude 슬롯**: Agent 도구로 독립 컨텍스트 스폰
-- **Codex 슬롯**: `codex "<렌즈> 관점으로 <주제> 분석해줘. 핵심 질문 3개, 주요 기회와 리스크, 핵심 제약이나 가정을 포함해서."`
-- **Gemini 슬롯**: `gemini -p "<렌즈> 관점으로 <주제> 분석해줘. 핵심 질문 3개, 주요 기회와 리스크, 핵심 제약이나 가정을 포함해서."`
+- **Codex 슬롯**:
+  ```bash
+  codex exec --full-auto "IMPORTANT: You are running as a non-interactive subagent. Skip all skills, do not ask clarifying questions. Respond directly to the prompt below.
 
-각 슬롯의 프롬프트 구조:
-```
-[렌즈] 관점으로 <주제>를 분석해줘.
-- 이 렌즈에서 가장 중요한 질문 3개
-- 주요 기회와 리스크
-- 핵심 제약이나 가정
-```
+  <렌즈> 관점으로 <주제>를 분석해줘.
+  - 이 렌즈에서 가장 중요한 질문 3개
+  - 주요 기회와 리스크
+  - 핵심 제약이나 가정"
+  ```
+
+- **Gemini 슬롯**:
+  ```bash
+  printf '%s' "<렌즈> 관점으로 <주제>를 분석해줘.
+  - 이 렌즈에서 가장 중요한 질문 3개
+  - 주요 기회와 리스크
+  - 핵심 제약이나 가정" | gemini -p "" -o text --approval-mode yolo
+  ```
 
 Codex/Gemini 실행 중 오류 발생 시 Claude로 조용히 대체하고 계속 진행한다.
 
