@@ -81,7 +81,7 @@ which codex && codex --version
 미설치 시:
 ```
 💡 Codex CLI (선택사항)
-Codex가 있으면 Explore 단계에서 다른 모델 관점을, Challenge 단계에서 독립 리뷰를 제공합니다.
+Codex가 있으면 assay/debug의 로직 리뷰어로, challenge 단계에서 독립 리뷰어로 동작합니다.
 없으면 Claude가 대신 수행합니다.
 
 설치하려면: npm install -g @openai/codex
@@ -109,7 +109,7 @@ API 키 방식은 `echo $OPENAI_API_KEY`로 설정 여부 추가 확인.
 
 **Claude Code Codex 플러그인 확인 (추가 선택사항):**
 
-Codex CLI와 별도로, Claude Code의 Codex 플러그인이 설치되어 있으면 Challenge 단계에서 플러그인 런타임을 우선 사용합니다.
+Codex CLI와 별도로, Claude Code의 Codex 플러그인이 설치되어 있으면 assay/challenge/debug 단계에서 플러그인 런타임을 우선 사용합니다.
 
 ```bash
 find ~/.claude/plugins -name "codex-companion.mjs" 2>/dev/null | head -1
@@ -134,7 +134,7 @@ which gemini 2>/dev/null || which gemini-cli 2>/dev/null
 미설치 시:
 ```
 💡 Gemini CLI (선택사항)
-Gemini가 있으면 Explore 단계에서 다른 모델의 관점을 추가할 수 있습니다.
+Gemini가 있으면 cast Explore 단계에서 다른 모델의 관점을 추가할 수 있습니다.
 없으면 Claude Agent로 대체합니다.
 
 설치하려면: npm install -g @google/gemini-cli
@@ -173,7 +173,13 @@ crb 환경 점검 완료
 ⚪ Gemini CLI      미설치 (선택)
 ─────────────────────────────────────────
 Explore 구성: Claude + Codex + Claude
-준비 완료. /crb:cast <주제> 로 시작하세요.
+
+준비 완료. 시작하려면:
+  기획·방향   →  /crb:cast <주제>
+  구조 설계   →  /crb:mold <기능명>
+  코드 리뷰   →  /crb:assay --staged
+  보안 점검   →  /crb:security --staged
+  에러 분석   →  /crb:debug "에러메시지"
 ```
 
 Agent Teams를 새로 활성화한 경우:

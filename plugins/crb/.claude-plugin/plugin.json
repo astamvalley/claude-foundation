@@ -1,7 +1,7 @@
 {
   "name": "crb",
-  "description": "Multi-angle planning plugin. Refines ideas through parallel analysis, consensus framing, and adversarial review. Inspired by claude-octopus Double Diamond — implemented natively in Claude Code.",
-  "version": "1.0.0",
+  "description": "Crucible — refines ideas and code through multi-angle analysis, consensus framing, and adversarial review. Commands: cast, mold, assay, challenge, security, debug.",
+  "version": "1.1.0",
   "author": {
     "name": "astamvalley"
   }

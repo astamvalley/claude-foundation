@@ -28,9 +28,9 @@ Claude Code 네이티브 플러그인 시스템으로 설치하는 플러그인 
 스킬(agentskills.io)과 달리 플러그인은 Claude Code의 `/plugin` 명령어로 관리하며,
 `plugin-name:command-name` 형식의 네임스페이스를 갖습니다.
 
-| 플러그인 | 명령어 | 설명 |
+| 플러그인 | 커맨드 | 설명 |
 |----------|--------|------|
-| [crb](plugins/crb/) | `/crb:cast`, `/crb:setup` | 다각도 분석 기반 범용 기획 플러그인 (crucible) |
+| [crb](plugins/crb/) | `/crb:cast` `/crb:mold` `/crb:assay` `/crb:challenge` `/crb:security` `/crb:debug` | 도가니(crucible) — 다각도 분석으로 기획과 코드를 정제하는 플러그인 |
 
 ### 플러그인 설치
 
@@ -72,16 +72,24 @@ claude-foundation/
 │   └── crb/
 │       ├── .claude-plugin/
 │       │   └── plugin.json
+│       ├── README.md
 │       └── commands/
-│           ├── cast.md    # /crb:cast
-│           └── setup.md   # /crb:setup
+│           ├── cast.md        # /crb:cast  — 기획 정제
+│           ├── mold.md        # /crb:mold  — 구조 설계
+│           ├── assay.md       # /crb:assay — 코드 리뷰
+│           ├── challenge.md   # /crb:challenge — 적대적 리뷰
+│           ├── security.md    # /crb:security  — 보안 점검
+│           ├── debug.md       # /crb:debug     — 에러 분석
+│           ├── setup.md       # /crb:setup
+│           ├── status.md      # /crb:status
+│           └── result.md      # /crb:result
 └── site/                  # Skills · Plugins 브라우저 (Next.js)
 ```
 
 ## 스킬 vs 플러그인
 
 | | Skills | Plugins |
-|--|--------|---------|
+|--|--------|----------|
 | 설치 | `npx skills add` | `/plugin install` |
 | 명령어 형태 | `/skill-name` | `/plugin:command` |
 | 호환 도구 | Claude Code, Cursor, VS Code 등 | Claude Code 전용 |
