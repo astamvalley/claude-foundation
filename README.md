@@ -26,7 +26,7 @@ npx skills add astamvalley/claude-foundation --skill auto-commit -a claude-code
 Claude Code 네이티브 플러그인 시스템으로 설치하는 플러그인 모음입니다.
 
 스킬(agentskills.io)과 달리 플러그인은 Claude Code의 `/plugin` 명령어로 관리하며,
-`plugin-name:skill-name` 형식의 네임스페이스를 갖습니다.
+`plugin-name:command-name` 형식의 네임스페이스를 갖습니다.
 
 | 플러그인 | 명령어 | 설명 |
 |----------|--------|------|
@@ -39,15 +39,15 @@ Claude Code 네이티브 플러그인 시스템으로 설치하는 플러그인 
 ```bash
 # 1. 레포 클론
 git clone https://github.com/astamvalley/claude-foundation
-cd claude-foundation
 
 # 2. Claude Code에서 마켓플레이스 등록 (한 번만)
 /plugin marketplace add /절대경로/claude-foundation
 
 # 3. 플러그인 설치
 /plugin install crb
+/reload-plugins
 
-# 4. 업데이트할 때
+# 업데이트할 때
 git pull
 /reload-plugins
 ```
@@ -64,19 +64,27 @@ git pull
 claude-foundation/
 ├── .claude-plugin/
 │   └── marketplace.json   # 플러그인 레지스트리
-├── skills/                # agentskills.io 스킬
+├── skills/                # agentskills.io 스킬 (npx skills add로 설치)
 │   ├── create-skill/
 │   ├── auto-commit/
 │   └── configure-notifications/
-├── plugins/               # Claude Code 네이티브 플러그인
+├── plugins/               # Claude Code 네이티브 플러그인 (/plugin으로 설치)
 │   └── crb/
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       └── skills/
-│           ├── cast/      # /crb:cast
-│           └── setup/     # /crb:setup
+│       └── commands/
+│           ├── cast.md    # /crb:cast
+│           └── setup.md   # /crb:setup
 └── site/                  # Skills · Plugins 브라우저 (Next.js)
 ```
+
+## 스킬 vs 플러그인
+
+| | Skills | Plugins |
+|--|--------|---------|
+| 설치 | `npx skills add` | `/plugin install` |
+| 명령어 형태 | `/skill-name` | `/plugin:command` |
+| 호환 도구 | Claude Code, Cursor, VS Code 등 | Claude Code 전용 |
 
 ## 호환 도구
 
