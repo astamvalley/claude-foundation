@@ -101,9 +101,9 @@ Codex 실행 우선순위:
 ...
 ```
 
-3. `.crb/runs/run-log.jsonl`에 한 줄 append:
+3. `.crb/runs/run-log.jsonl`에 한 줄 append (`crb-output` 스킬 표준 필드 포함):
    ```json
-   {"command":"challenge","topic":"<대상 제목>","reviewer":"<리뷰어>","output_file":"..."}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"challenge","topic":"<대상 제목>","status":"completed","user_input":{"raw":"<원본 입력>","flags":[]},"reviewer":"<codex-companion|codex-cli|claude>","output_file":".crb/outputs/<session_id>.md"}
    ```
 
 ## Gotchas
