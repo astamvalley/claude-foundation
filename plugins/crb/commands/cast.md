@@ -4,109 +4,79 @@ description: >
   게임 기획, 앱 설계, 아키텍처 결정, 프로덕트 방향 등 어떤 기획 주제에도 사용 가능하다.
   /crb:cast <주제> 또는 /crb:cast --auto <주제> 로 호출한다.
   단순 질문이나 코딩 작업에는 사용하지 않는다.
+skills:
+  - crb-explore
+  - crb-frame
+  - crb-output
 ---
 
 # cast
 
-주어진 주제를 4단계 워크플로우로 정제해 `crucible-output.md`에 저장한다.
+주어진 주제를 4단계 워크플로우로 정제해 `.crb/outputs/{session_id}.md`에 저장한다.
 
 ## 플래그 파싱
 
-입력에서 `--auto` 플래그를 감지한다.
-- `--auto` 있음 → Frame 후 사람 확인 없이 끝까지 자동 실행
-- `--auto` 없음 → Frame 후 사용자 확인 대기 (기본값)
+입력에서 플래그를 감지한다:
 
-## 실행 워크플로우
+- `--auto`: Frame 후 사람 확인 없이 끝까지 자동 실행
+- `--background`: 백그라운드 Task로 실행
+- `--wait`: 포그라운드 강제 실행
+- 플래그 없음: 기본값 (실행 방식 선택 요청)
+
+## 실행 방식 결정
+
+`--background` 또는 `--wait`가 없을 때, `AskUserQuestion`으로 정확히 1회 묻는다:
+
+```
+crb:cast는 4단계(Explore → Frame → Design → Challenge)로 진행됩니다.
+완료까지 시간이 걸릴 수 있습니다.
+
+> 백그라운드로 실행  (Recommended)
+> 지금 기다리기
+```
+
+- 백그라운드 선택 → 백그라운드 Task로 실행하고 아래를 출력:
+  ```
+  crb:cast가 백그라운드에서 실행됩니다.
+  완료되면 알림이 옵니다. 결과는 .crb/outputs/ 에 저장됩니다.
+  ```
+- 포그라운드 선택 → 그대로 진행
+
+`--auto`와 `--background`를 함께 쓸 수 있다.
+
+## 세션 초기화
+
+워크플로우 시작 전에 `crb-output` 스킬의 규칙에 따라 세션 ID를 생성하고 state.json을 초기화한다:
+
+- 세션 ID 생성: `crb-{YYYYMMDD}-{HHMMSS}`
+- `.crb/state.json` 생성 (status: `running`, current_phase: `explore`)
+- `user_input.raw` 에 원본 입력 전체를 기록
+- `user_input.flags` 에 감지된 플래그 목록을 기록
 
 ---
 
+## 실행 워크플로우
+
 ### ① Explore — 병렬 다각도 분석
 
-**사전 준비: 사용 가능한 모델 확인**
+`crb-explore` 스킬의 규칙에 따라 실행한다:
 
-Explore 시작 전에 아래를 병렬로 확인한다:
-
-```bash
-# Codex 인증 확인
-codex auth status 2>/dev/null || echo $OPENAI_API_KEY
-
-# Gemini 인증 확인
-gemini auth status 2>/dev/null
-```
-
-확인 결과로 Explore 구성을 결정한다:
-
-| 상황 | Agent A | Agent B | Agent C |
-|------|---------|---------|---------|
-| Codex + Gemini 모두 인증됨 | Claude | Codex | Gemini |
-| Codex만 인증됨 | Claude | Codex | Claude |
-| Gemini만 인증됨 | Claude | Gemini | Claude |
-| 둘 다 없음 | Claude | Claude | Claude |
-
-구성을 사용자에게 한 줄로 알린다:
-```
-🔍 Explore 시작 — Claude + Codex + Gemini
-```
-
-**렌즈 선택 (동적)**
-
-주제를 보고 가장 적합한 3개의 렌즈를 직접 선택한다. 예시:
-
-| 주제 유형 | 렌즈 예시 |
-|-----------|----------|
-| 게임 기획 | 플레이어 경험 / 메카닉 설계 / 서사·분위기 |
-| 앱/프로덕트 | 사용자 관점 / 기술 실현성 / 비즈니스 가치 |
-| 아키텍처 | 확장성 / 유지보수성 / 성능 |
-| 창작 | 독창성 / 실현 가능성 / 사용자 반응 |
-
-렌즈는 고정하지 않고 주제 맥락에 맞게 매번 새로 선택한다.
-
-**병렬 실행**
-
-결정된 구성에 따라 3개를 동시에 실행한다:
-
-- **Claude 슬롯**: Agent 도구로 독립 컨텍스트 스폰
-- **Codex 슬롯**: `codex "<렌즈> 관점으로 <주제> 분석해줘. 핵심 질문 3개, 주요 기회와 리스크, 핵심 제약이나 가정을 포함해서."`
-- **Gemini 슬롯**: `gemini -p "<렌즈> 관점으로 <주제> 분석해줘. 핵심 질문 3개, 주요 기회와 리스크, 핵심 제약이나 가정을 포함해서."`
-
-각 슬롯의 프롬프트 구조:
-```
-[렌즈] 관점으로 <주제>를 분석해줘.
-- 이 렌즈에서 가장 중요한 질문 3개
-- 주요 기회와 리스크
-- 핵심 제약이나 가정
-```
-
-Codex/Gemini 실행 중 오류 발생 시 Claude로 조용히 대체하고 계속 진행한다.
+1. 모델 감지 (Codex/Gemini 인증 확인)
+2. 구성 결정 및 사용자에게 한 줄 알림
+3. 렌즈 3개 동적 선택
+4. 3개 에이전트 병렬 실행 — 순차 실행 금지
+5. state.json `explore` 필드 업데이트
 
 ---
 
 ### ② Frame — 합의 수렴
 
-3개 결과를 취합해 아래를 식별한다:
+`crb-frame` 스킬의 규칙에 따라 실행한다:
 
-**합의 영역** (3개 모두 동의)
-→ 다음 단계의 기반이 되는 확실한 전제
-
-**부분 합의** (2/3 동의)
-→ 가능성 높은 방향, 단 검증 필요
-
-**긴장점** (의견 충돌 또는 1개만 제기)
-→ 명시적으로 결정이 필요한 지점
-
-**`--auto` 없을 때**: Frame 요약을 출력하고 아래 메시지를 표시한다:
-
-```
-─── Frame 완료 ───────────────────────────
-[합의/부분합의/긴장점 요약]
-─────────────────────────────────────────
-이 방향으로 Design 단계를 진행할까요?
-계속하려면 Enter, 수정이 필요하면 피드백을 입력하세요:
-```
-
-사용자 피드백이 있으면 Frame을 수정한 뒤 재확인한다.
-
-**`--auto` 있을 때**: 요약 출력 후 자동으로 Design 진행.
+1. Explore 3개 결과를 합의 영역 / 부분 합의 / 긴장점으로 정리
+2. `--auto` 없을 때: 사용자 확인 및 피드백 루프 (2회 이상 시 강제 진행 옵션 제시)
+3. `--auto` 있을 때: 요약 출력 후 자동 진행
+4. state.json `phases.frame` 업데이트 (피드백, 반복 횟수 포함)
 
 ---
 
@@ -117,6 +87,10 @@ Frame 결과를 바탕으로 실행 가능한 방향을 제시한다:
 - **권장 방향**: 합의 영역 기반, 구체적 액션 포함
 - **결정 필요 항목**: 긴장점에 대한 선택지 2-3개 + 트레이드오프
 - **다음 단계**: 즉시 실행 가능한 1-3개 액션
+
+완료 후 state.json `phases.design` 업데이트:
+- `chosen_direction`: 선택된 방향 요약
+- `rejected_alternatives`: 검토했으나 제외된 방향들
 
 ---
 
@@ -134,39 +108,23 @@ Design 결과를 비판적으로 검토한다.
 
 Challenge 결과에 따라 Design을 수정하거나 최종 출력에 "주의사항"으로 포함한다.
 
+완료 후 state.json `phases.challenge` 업데이트:
+- `reviewer`: 사용한 리뷰어
+- `main_objection`: 핵심 반론
+- `resolution`: 처리 방식
+
 ---
 
 ## 결과물 저장
 
-작업 디렉토리에 `crucible-output.md`를 생성한다:
+`crb-output` 스킬의 규칙에 따라 저장한다:
 
-```markdown
-# crucible: <주제>
-
-생성일: <날짜>
-렌즈: <렌즈1> / <렌즈2> / <렌즈3>
-Explore 구성: <Agent A 모델> / <Agent B 모델> / <Agent C 모델>
-
-## 합의 영역
-...
-
-## 권장 방향
-...
-
-## 결정 필요 항목
-...
-
-## 다음 단계
-...
-
-## Challenge 리뷰
-...
-
-## 주의사항
-...
-```
-
-저장 후 파일 경로를 출력한다.
+1. `.crb/outputs/{session_id}.md` 생성 (실행 맥락 + 의사결정 경로 섹션 포함)
+2. state.json `status`를 `completed`, `current_phase`를 `done`으로 업데이트
+3. 저장 경로 출력:
+   ```
+   결과 저장됨: .crb/outputs/{session_id}.md
+   ```
 
 ## Gotchas
 
@@ -174,5 +132,6 @@ Explore 구성: <Agent A 모델> / <Agent B 모델> / <Agent C 모델>
 - 렌즈는 매번 주제에 맞게 새로 선택할 것 — 고정 렌즈 재사용 금지
 - Codex/Gemini 실행 오류는 에러로 표시하지 말고 Claude로 조용히 대체할 것
 - Frame에서 합의가 없어도 진행할 것 — 긴장점 자체가 Design의 재료
-- `crucible-output.md`가 이미 있으면 덮어쓰기 전 확인할 것
 - Challenge는 Design을 무너뜨리는 게 목적이 아님 — 더 단단하게 만드는 것
+- state.json은 각 phase 완료마다 즉시 업데이트할 것 — 마지막에 몰아쓰기 금지
+- 실행 맥락과 의사결정 경로 섹션은 출력에서 생략하지 말 것
