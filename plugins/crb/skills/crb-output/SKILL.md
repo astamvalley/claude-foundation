@@ -1,77 +1,55 @@
 ---
 name: crb-output
-description: crb 결과 저장 내부 스킬. state.json 형식, 출력 파일 구조(실행 맥락 + 의사결정 경로 포함), 파일 경로 규칙을 정의한다.
+description: crb 결과 저장 내부 스킬. run-log.jsonl 형식, 출력 파일 구조(실행 맥락 + 의사결정 경로 포함), 파일 경로 규칙을 정의한다.
 user-invocable: false
 ---
 
 # crb-output
 
-cast 커맨드의 결과 저장 단계에서만 사용한다.
+cast, challenge 등 결과를 생성하는 모든 crb 커맨드에서 사용한다.
+
+## 디렉토리 구조
+
+```
+.crb/
+  runs/
+    run-log.jsonl      ← 모든 커맨드 실행 기록 (append-only)
+  outputs/
+    crb-YYYYMMDD-HHMMSS.md   ← 커맨드별 출력 파일
+```
+
+디렉토리가 없으면 생성한다:
+```bash
+mkdir -p .crb/runs .crb/outputs
+```
 
 ## 세션 ID 생성
 
-cast 시작 시 세션 ID를 생성한다:
+커맨드 시작 시 세션 ID를 생성한다:
 
 ```
 crb-{YYYYMMDD}-{HHMMSS}
 예: crb-20260412-143022
 ```
 
-## state.json 형식
+## run-log.jsonl 형식
 
-작업 디렉토리의 `.crb/state.json`에 기록한다. 파일이 없으면 생성, 있으면 업데이트한다.
+커맨드 완료(또는 중단) 시 `.crb/runs/run-log.jsonl`에 한 줄을 append한다.
+실행 중에는 쓰지 않는다 — 컨텍스트에 보관하다가 완료 시 한 번에 기록한다.
 
-```json
-{
-  "last_updated": "ISO 8601 타임스탬프",
-  "session_id": "crb-YYYYMMDD-HHMMSS",
-  "topic": "사용자가 입력한 주제",
-  "status": "running | completed | interrupted",
-  "current_phase": "explore | frame | design | challenge | done",
-  "phases_completed": [],
-  "user_input": {
-    "raw": "사용자의 원본 입력 전체",
-    "flags": ["--auto", "--background"]
-  },
-  "explore": {
-    "config": {
-      "agent_a": "claude",
-      "agent_b": "codex | gemini | claude",
-      "agent_c": "gemini | claude"
-    },
-    "lenses": ["렌즈1", "렌즈2", "렌즈3"]
-  },
-  "phases": {
-    "frame": {
-      "consensus": [],
-      "tensions": [],
-      "user_feedback": [],
-      "iterations": 0
-    },
-    "design": {
-      "chosen_direction": "",
-      "rejected_alternatives": []
-    },
-    "challenge": {
-      "reviewer": "codex | claude",
-      "main_objection": "",
-      "resolution": "수정됨 | 주의사항으로 포함"
-    }
-  },
-  "output_file": ".crb/outputs/{session_id}.md"
-}
+```jsonl
+{"timestamp":"2026-04-12T14:30:22Z","session_id":"crb-20260412-143022","command":"cast","topic":"CARRIER 방04 퍼즐 설계","status":"completed","user_input":{"raw":"/crb:cast CARRIER 방04 퍼즐 설계","flags":["--auto"]},"explore":{"config":{"agent_a":"claude","agent_b":"codex","agent_c":"gemini"},"lenses":["플레이어 경험","메카닉 설계","서사·분위기"]},"phases":{"frame":{"consensus":["퍼즐은 환경의 일부여야 함"],"tensions":["힌트 시스템 필요 여부"],"user_feedback":[],"iterations":0},"design":{"chosen_direction":"환경 단서 기반, 힌트 없음","rejected_alternatives":["아이템 힌트"]},"challenge":{"reviewer":"codex","main_objection":"난이도 미검증","resolution":"주의사항으로 포함"}},"output_file":".crb/outputs/crb-20260412-143022.md"}
 ```
 
-**업데이트 규칙**: 각 phase 완료 시마다 `current_phase`, `phases_completed`, `last_updated`를 갱신한다. 완료 시 `status`를 `completed`로 변경한다.
+**필드 규칙:**
+- `command`: 실행된 커맨드명 (`cast`, `challenge` 등)
+- `status`: `completed` | `interrupted`
+- `explore`는 cast에만 해당. challenge 등 다른 커맨드는 생략 가능
+- 중단된 경우 `status: "interrupted"`, 완료된 phase까지만 기록
 
 ## 출력 파일 경로
 
 `.crb/outputs/{session_id}.md` 에 저장한다.
-
-디렉토리가 없으면 생성한다:
-```bash
-mkdir -p .crb/outputs
-```
 
 ## 출력 파일 구조
 
@@ -79,6 +57,7 @@ mkdir -p .crb/outputs
 # crucible: <주제>
 
 세션 ID: <session_id>
+커맨드: <cast | challenge>
 생성일: <날짜>
 렌즈: <렌즈1> / <렌즈2> / <렌즈3>
 Explore 구성: <Agent A> / <Agent B> / <Agent C>
@@ -86,11 +65,9 @@ Explore 구성: <Agent A> / <Agent B> / <Agent C>
 ## 실행 맥락
 
 - **원본 입력**: "<사용자가 입력한 전체 텍스트>"
-- **실행 플래그**: <--auto, --background 등 사용한 플래그>
+- **실행 플래그**: <사용한 플래그>
 
 ## 의사결정 경로
-
-<!-- Frame에서 발생한 합의/충돌과 사용자 피드백, Design 방향 선택 이유, Challenge 처리 방식을 순서대로 기록 -->
 
 - **Frame 합의**: <합의된 전제들>
 - **Frame 긴장점**: <충돌 항목들> — <어떤 모델이 어떤 입장>
@@ -123,4 +100,4 @@ Explore 구성: <Agent A> / <Agent B> / <Agent C>
 ...
 ```
 
-**실행 맥락**과 **의사결정 경로** 섹션은 생략하지 않는다. 나중에 파일만 읽어도 전체 과정을 파악할 수 있어야 한다.
+**실행 맥락**과 **의사결정 경로** 섹션은 생략하지 않는다.

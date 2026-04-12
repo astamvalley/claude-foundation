@@ -52,17 +52,13 @@ Frame 요약을 출력하고 확인을 요청한다:
 > Frame 다시 수정
 ```
 
-## 상태 기록
+## 실행 데이터 보관
 
-Frame 완료(또는 각 반복) 후 state.json의 `phases.frame` 필드를 업데이트한다:
+Frame 진행 중 아래 데이터를 컨텍스트에 누적한다. run-log.jsonl 기록은 커맨드 완료 시 `crb-output` 스킬이 처리한다.
 
-```json
-"frame": {
-  "consensus": ["합의 항목1", "합의 항목2"],
-  "tensions": ["긴장점1", "긴장점2"],
-  "user_feedback": ["피드백1", "피드백2"],
-  "iterations": 1
-}
 ```
-
-피드백이 있을 때마다 `user_feedback` 배열에 추가하고 `iterations`를 증가시킨다.
+phases.frame.consensus = [...]
+phases.frame.tensions = [...]
+phases.frame.user_feedback = []   ← 피드백마다 추가
+phases.frame.iterations = 0       ← 반복마다 증가
+```

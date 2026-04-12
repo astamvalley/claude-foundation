@@ -60,17 +60,13 @@ Explore 구성: Claude / Codex / Gemini
 
 Codex/Gemini 실행 중 오류 발생 시 Claude로 조용히 대체하고 계속 진행한다.
 
-## 상태 기록
+## 실행 데이터 보관
 
-Explore 완료 후 state.json의 `explore` 필드를 업데이트한다:
+Explore 완료 후 아래 데이터를 컨텍스트에 보관한다. run-log.jsonl 기록은 커맨드 완료 시 `crb-output` 스킬이 처리한다.
 
-```json
-"explore": {
-  "config": {
-    "agent_a": "claude",
-    "agent_b": "codex",
-    "agent_c": "gemini"
-  },
-  "lenses": ["렌즈1", "렌즈2", "렌즈3"]
-}
+```
+explore.config.agent_a = "claude"
+explore.config.agent_b = "codex | gemini | claude"
+explore.config.agent_c = "gemini | claude"
+explore.lenses = ["렌즈1", "렌즈2", "렌즈3"]
 ```
