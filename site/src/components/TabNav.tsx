@@ -8,7 +8,8 @@ export default function TabNav() {
   const isPlugins = pathname.startsWith('/plugins')
   const isMcp = pathname.startsWith('/mcp')
   const isTools = pathname.startsWith('/tools')
-  const isSkills = !isPlugins && !isMcp && !isTools
+  const isFinds = pathname.startsWith('/finds')
+  const isSkills = !isPlugins && !isMcp && !isTools && !isFinds
 
   const tab = (label: string, href: string, active: boolean) => (
     <Link
@@ -29,6 +30,7 @@ export default function TabNav() {
       {tab('Plugins', '/plugins', isPlugins)}
       {tab('MCP', '/mcp', isMcp)}
       {tab('Tools', '/tools', isTools)}
+      {tab('Finds', '/finds', isFinds)}
     </div>
   )
 }
