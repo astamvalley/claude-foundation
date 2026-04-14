@@ -8,6 +8,7 @@ skills:
   - crb-explore
   - crb-frame
   - crb-output
+  - crb-team
 ---
 
 # cast
@@ -18,12 +19,22 @@ skills:
 
 입력에서 플래그를 감지한다:
 
+- `--team`: Team 모드 즉시 실행
+- `--solo`: Solo 모드 즉시 실행
 - `--auto`: Frame 후 사람 확인 없이 끝까지 자동 실행
 - `--background`: 백그라운드 Task로 실행
 - `--wait`: 포그라운드 강제 실행
 - `--depth quick|standard|deep`: 실행 깊이 지정 (생략 시 선택 요청)
 - `--lens <A>,<B>,<C>`: 렌즈 직접 지정 (생략 시 자동 선택)
-- 플래그 없음: 기본값 (실행 방식 및 깊이 선택 요청)
+- `--ref <session_id>`: 이전 cast 세션 결과를 컨텍스트로 참조
+- 플래그 없음: 기본값 (모드 및 깊이 선택 요청)
+
+## 모드 결정
+
+`crb-team` 스킬의 규칙에 따라 Solo/Team 모드를 결정한다. 결정된 모드를 컨텍스트에 기록한다.
+
+- **Solo 모드**: 아래 실행 워크플로우 그대로 진행
+- **Team 모드**: v1.3.0에서 구현 예정. 현재는 Solo 모드로 동작하며 "ℹ️ cast Team 모드는 준비 중입니다. Solo 모드로 실행합니다." 출력
 
 ## 실행 방식 결정
 

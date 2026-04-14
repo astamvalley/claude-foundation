@@ -30,11 +30,16 @@ skills:
     /crb:debug "로그인 후 간헐적으로 500 에러 발생"
 ```
 
+## 플래그 파싱
+
+- `--team`: 무시됨. debug는 Solo 모드 고정. "debug는 속도 우선으로 Solo 모드로만 실행됩니다." 출력 후 Solo 진행
+
 ## 세션 초기화
 
 `crb-output` 스킬 규칙에 따라 세션을 초기화한다:
 - 세션 ID: `crb-{YYYYMMDD}-{HHMMSS}`
 - `user_input.raw`에 원본 입력 기록
+- `mode`: 항상 `"solo"`
 
 ## 실행 워크플로우
 

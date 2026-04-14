@@ -5,6 +5,7 @@ description: >
 argument-hint: '[파일경로 | diff | "코드"]'
 skills:
   - crb-output
+  - crb-team
 ---
 
 # assay
@@ -32,11 +33,25 @@ skills:
     /crb:assay "function login() { ... }"
 ```
 
+## 플래그 파싱
+
+- `--team`: Team 모드 즉시 실행
+- `--solo`: Solo 모드 즉시 실행
+- `--ref <session_id>`: 이전 assay 세션과 비교 (미해결 이슈 추적)
+
+## 모드 결정
+
+`crb-team` 스킬의 규칙에 따라 Solo/Team 모드를 결정한다.
+
+- **Solo 모드**: 아래 실행 워크플로우 그대로 진행
+- **Team 모드**: v1.5.0에서 구현 예정. 현재는 Solo 모드로 동작하며 "ℹ️ assay Team 모드는 준비 중입니다. Solo 모드로 실행합니다." 출력
+
 ## 세션 초기화
 
 `crb-output` 스킬 규칙에 따라 세션을 초기화한다:
 - 세션 ID: `crb-{YYYYMMDD}-{HHMMSS}`
 - `user_input.raw`에 원본 입력 기록
+- `mode`에 결정된 모드 기록
 
 ## 실행 워크플로우
 

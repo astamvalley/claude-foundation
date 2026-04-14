@@ -38,14 +38,25 @@ crb-{YYYYMMDD}-{HHMMSS}
 실행 중에는 쓰지 않는다 — 컨텍스트에 보관하다가 완료 시 한 번에 기록한다.
 
 ```jsonl
-{"timestamp":"2026-04-12T14:30:22Z","session_id":"crb-20260412-143022","command":"cast","topic":"CARRIER 방04 퍼즐 설계","status":"completed","user_input":{"raw":"/crb:cast CARRIER 방04 퍼즐 설계","flags":["--auto"]},"explore":{"config":{"agent_a":"claude","agent_b":"codex","agent_c":"gemini"},"lenses":["플레이어 경험","메카닉 설계","서사·분위기"]},"phases":{"frame":{"consensus":["퍼즐은 환경의 일부여야 함"],"tensions":["힌트 시스템 필요 여부"],"user_feedback":[],"iterations":0},"design":{"chosen_direction":"환경 단서 기반, 힌트 없음","rejected_alternatives":["아이템 힌트"]},"challenge":{"reviewer":"codex","main_objection":"난이도 미검증","resolution":"주의사항으로 포함"}},"output_file":".crb/outputs/crb-20260412-143022.md"}
+{"timestamp":"2026-04-12T14:30:22Z","session_id":"crb-20260412-143022","command":"cast","mode":"solo","topic":"CARRIER 방04 퍼즐 설계","status":"completed","user_input":{"raw":"/crb:cast CARRIER 방04 퍼즐 설계","flags":["--auto"]},"explore":{"config":{"agent_a":"claude","agent_b":"codex","agent_c":"gemini"},"lenses":["플레이어 경험","메카닉 설계","서사·분위기"]},"phases":{"frame":{"consensus":["퍼즐은 환경의 일부여야 함"],"tensions":["힌트 시스템 필요 여부"],"user_feedback":[],"iterations":0},"design":{"chosen_direction":"환경 단서 기반, 힌트 없음","rejected_alternatives":["아이템 힌트"]},"challenge":{"reviewer":"codex","main_objection":"난이도 미검증","resolution":"주의사항으로 포함"}},"output_file":".crb/outputs/crb-20260412-143022.md"}
 ```
 
 **필드 규칙:**
 - `command`: 실행된 커맨드명 (`cast`, `challenge` 등)
+- `mode`: `"solo"` | `"team"` — crb-team 스킬이 결정한 모드
 - `status`: `completed` | `interrupted`
 - `explore`는 cast에만 해당. challenge 등 다른 커맨드는 생략 가능
 - 중단된 경우 `status: "interrupted"`, 완료된 phase까지만 기록
+- Team 모드인 경우 `team_config` 필드 추가 (선택):
+  ```json
+  "team_config": {
+    "teammates": [
+      {"name": "Lens-A", "model": "haiku", "role": "렌즈 1 분석"},
+      {"name": "Lens-B", "model": "haiku", "role": "렌즈 2 분석"},
+      {"name": "Critic", "model": "sonnet", "role": "Challenge"}
+    ]
+  }
+  ```
 
 ## 출력 파일 경로
 
