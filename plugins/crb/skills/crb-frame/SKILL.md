@@ -1,12 +1,17 @@
 ---
 name: crb-frame
-description: crb Frame 단계 내부 스킬. Explore 결과를 합의/부분합의/긴장점으로 수렴하고, 사용자 피드백과 반복 횟수를 추적한다.
+description: crb Frame 단계 내부 스킬. Explore 결과를 합의/부분합의/긴장점으로 수렴하고, 사용자 피드백과 반복 횟수를 추적한다. Team 모드에서는 Teammate 토론이 이 스킬을 대체한다.
 user-invocable: false
 ---
 
 # crb-frame
 
 cast 커맨드의 Frame 단계에서만 사용한다.
+
+## 모드 분기
+
+- **Solo 모드**: 아래 Round 2 → 합의 수렴 → 사용자 확인 → 피드백 루프 실행
+- **Team 모드**: 이 스킬을 사용하지 않는다. cast Team 모드 워크플로우의 "토론" 단계(Teammate 직접 토론)가 Frame을 대체한다.
 
 ## Round 2 — 교차검증 (병렬)
 
