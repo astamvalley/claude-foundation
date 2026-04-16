@@ -168,7 +168,10 @@ Challenge 결과에 따라 Design을 수정하거나 최종 출력에 "주의사
 `crb-output` 스킬의 규칙에 따라 저장한다:
 
 1. `.crb/outputs/{session_id}.md` 생성 (실행 맥락 + 의사결정 경로 섹션 포함)
-2. `.crb/runs/run-log.jsonl`에 실행 기록 한 줄 append (`status: completed`, `"mode":"solo"`)
+2. `.crb/runs/run-log.jsonl`에 실행 기록 한 줄 append:
+   ```json
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"cast","mode":"solo","topic":"<주제>","status":"completed","user_input":{"raw":"<원본 입력>","flags":[]},"explore":{"config":{"agent_a":"claude","agent_b":"codex","agent_c":"gemini"},"lenses":["<렌즈1>","<렌즈2>","<렌즈3>"]},"phases":{"frame":{"consensus":[],"tensions":[]},"design":{"chosen_direction":"<선택 방향>"},"challenge":{"reviewer":"<codex|gemini|claude>","resolution":"<처리 방식>"}},"output_file":".crb/outputs/<session_id>.md"}
+   ```
 3. 저장 경로 출력:
    ```
    결과 저장됨: .crb/outputs/{session_id}.md
@@ -249,7 +252,10 @@ Challenge 결과에 따라 Design을 수정하거나 최종 출력에 "주의사
 
 ### 결과물 저장
 
-Solo 모드 결과물 저장과 동일하게 `crb-output` 스킬 규칙에 따라 처리한다. run-log.jsonl에 `"mode":"team"` 기록.
+Solo 모드 결과물 저장과 동일하게 `crb-output` 스킬 규칙에 따라 처리한다. run-log.jsonl 형식은 Solo와 동일하며 `"mode":"team"` 기록:
+```json
+{"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"cast","mode":"team","topic":"<주제>","status":"completed","user_input":{"raw":"<원본 입력>","flags":[]},"phases":{"frame":{"consensus":[],"tensions":[],"discussion_rounds":2},"design":{"chosen_direction":"<선택 방향>"},"challenge":{"reviewer":"critic-teammate","resolution":"<처리 방식>"}},"output_file":".crb/outputs/<session_id>.md"}
+```
 
 ---
 

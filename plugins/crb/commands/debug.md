@@ -39,6 +39,7 @@ skills:
 `crb-output` 스킬 규칙에 따라 세션을 초기화한다:
 - 세션 ID: `crb-{YYYYMMDD}-{HHMMSS}`
 - `user_input.raw`에 원본 입력 기록
+- `user_input.flags`에 감지된 플래그 목록 기록 (--team 등 무시된 플래그도 기록)
 - `mode`: 항상 `"solo"`
 
 ## 실행 워크플로우

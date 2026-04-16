@@ -218,5 +218,5 @@ Agent Teams를 새로 활성화한 경우:
 - settings.json 수정 후 반드시 Claude Code 재시작이 필요함을 명시할 것
 - settings.json이 없는 경우 새로 생성하되, 기존 파일은 반드시 읽고 병합할 것
 - RTK 미설치를 에러로 처리하지 말 것 — 권장이지 필수 아님
-- Codex `codex auth status`가 없는 버전이면 `echo $OPENAI_API_KEY`로 fallback
+- Codex `codex login status`가 없는 버전이면 `echo $OPENAI_API_KEY`로 fallback
 - 인증 미완료 도구는 에러 없이 조용히 건너뜀 — cast가 알아서 fallback 처리함
