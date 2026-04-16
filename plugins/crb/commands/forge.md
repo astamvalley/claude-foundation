@@ -148,7 +148,10 @@ forge 구성 (TDD): Codex(테스트) / Claude(구현) / Gemini(Guard)
 `crb-output` 스킬 규칙에 따라 저장한다:
 
 1. `crb-forge` 스킬 형식으로 `.crb/outputs/{session_id}.md` 생성
-2. `.crb/runs/run-log.jsonl`에 한 줄 append (`status: completed`, `mode`는 세션 초기화 시 확정된 값)
+2. `.crb/runs/run-log.jsonl`에 한 줄 append:
+   ```json
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"forge","topic":"<기능명>","status":"completed","mode":"<solo|team>","user_input":{"raw":"<원본 입력>","flags":[]},"mold_session":"<session_id>|null","tdd":false,"files_created":["<파일 경로>"],"output_file":".crb/outputs/<session_id>.md"}
+   ```
 3. 저장 경로 출력:
    ```
    결과 저장됨: .crb/outputs/{session_id}.md

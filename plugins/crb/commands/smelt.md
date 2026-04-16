@@ -37,6 +37,9 @@ mold(설계) → forge(구현) → assay(리뷰)를 자동으로 체이닝한다
 
 `crb-output` 스킬 규칙에 따라 초기화한다:
 - 세션 ID: `crb-{YYYYMMDD}-{HHMMSS}`
+- `user_input.raw`에 원본 입력 기록
+- `user_input.flags`에 감지된 플래그 목록 기록
+- `mode`: 내부 mold·forge에 전달하는 모드 값 (`"solo"` | `"team"` | 없음)
 - 중단된 세션 감지: `crb-resume` 스킬 규칙에 따라 체크포인트 확인
 
 ## 사전 스냅샷 (--no-rollback 없을 때)
@@ -167,7 +170,10 @@ forge 재실행 선택 시: forge를 `--pipeline`으로 재실행 (assay 이슈 
 `crb-output` 스킬 규칙에 따라 저장한다:
 
 1. `.crb/outputs/{session_id}.md` 생성 (smelt 전체 실행 요약)
-2. `.crb/runs/run-log.jsonl`에 한 줄 append
+2. `.crb/runs/run-log.jsonl`에 한 줄 append:
+   ```json
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"smelt","topic":"<기능명>","status":"completed","mode":"<solo|team>","user_input":{"raw":"<원본 입력>","flags":[]},"steps":["mold","forge","assay"],"mold_session":"<session_id>","forge_session":"<session_id>","assay_verdict":"approved|changes-requested","output_file":".crb/outputs/<session_id>.md"}
+   ```
 3. 체크포인트 파일 삭제
 4. 완료 출력:
    ```

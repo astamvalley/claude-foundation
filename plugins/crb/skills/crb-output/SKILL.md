@@ -41,6 +41,8 @@ crb-{YYYYMMDD}-{HHMMSS}
 {"timestamp":"2026-04-12T14:30:22Z","session_id":"crb-20260412-143022","command":"cast","mode":"solo","topic":"CARRIER 방04 퍼즐 설계","status":"completed","user_input":{"raw":"/crb:cast CARRIER 방04 퍼즐 설계","flags":["--auto"]},"explore":{"config":{"agent_a":"claude","agent_b":"codex","agent_c":"gemini"},"lenses":["플레이어 경험","메카닉 설계","서사·분위기"]},"phases":{"frame":{"consensus":["퍼즐은 환경의 일부여야 함"],"tensions":["힌트 시스템 필요 여부"],"user_feedback":[],"iterations":0},"design":{"chosen_direction":"환경 단서 기반, 힌트 없음","rejected_alternatives":["아이템 힌트"]},"challenge":{"reviewer":"codex","main_objection":"난이도 미검증","resolution":"주의사항으로 포함"}},"output_file":".crb/outputs/crb-20260412-143022.md"}
 ```
 
+**JSONL 형식 규칙:** 한 줄에 JSON 객체 하나. 줄바꿈·들여쓰기 없이 한 줄로 출력한다 (pretty-print 금지).
+
 **필드 규칙:**
 - `command`: 실행된 커맨드명 (`cast`, `challenge` 등)
 - `mode`: `"solo"` | `"team"` — crb-team 스킬이 결정한 모드
@@ -65,7 +67,7 @@ crb-{YYYYMMDD}-{HHMMSS}
 ## 출력 파일 구조
 
 ```markdown
-# crucible: <주제>
+# <command>: <주제>
 
 세션 ID: <session_id>
 커맨드: <cast | challenge>
