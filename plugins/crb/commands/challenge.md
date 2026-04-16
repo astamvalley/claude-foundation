@@ -129,8 +129,7 @@ Lead가 3분 타임아웃 감시.
 
 `crb-output` 스킬의 규칙에 따라 저장한다:
 
-1. 세션 ID 생성 (`crb-{YYYYMMDD}-{HHMMSS}`)
-2. `.crb/outputs/{session_id}.md` 생성:
+1. `.crb/outputs/{session_id}.md` 생성:
 
 ```markdown
 # challenge: <대상 제목 또는 주제>

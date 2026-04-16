@@ -192,7 +192,9 @@ Agent Teams 기반 실시간 토론 구현.
 
 Solo 모드와 동일하게 진행한다.
 
-### ② 실시간 토론 구현 (일반 모드)
+### ② 실시간 토론 구현
+
+**일반 모드:**
 
 Implementer가 코드를 작성하는 동안 Architect와 Guard가 실시간으로 읽고 피드백한다:
 
@@ -204,7 +206,7 @@ Implementer→Architect: "그러면 인터페이스 분리할게"
 
 Implementer가 피드백을 반영하며 토론하면서 구현을 완성한다.
 
-### ② TDD 흐름 (--tdd 모드)
+**--tdd 모드:**
 
 ```
 Tester→Implementer: "이 테스트 통과시켜봐"
