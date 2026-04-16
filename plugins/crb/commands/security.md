@@ -34,8 +34,8 @@ skills:
 
 `crb-team` 스킬의 규칙에 따라 Solo/Team 모드를 결정한다.
 
-- **Solo 모드**: 아래 실행 워크플로우 그대로 진행
-- **Team 모드**: v1.5.0에서 구현 예정. 현재는 Solo 모드로 동작하며 "ℹ️ security Team 모드는 준비 중입니다. Solo 모드로 실행합니다." 출력
+- **Solo 모드**: 아래 [Solo 모드 워크플로우](#solo-모드-워크플로우) 진행
+- **Team 모드**: 아래 [Team 모드 워크플로우](#team-모드-워크플로우) 진행
 
 ## 세션 초기화
 
@@ -44,7 +44,7 @@ skills:
 - `user_input.raw`에 원본 입력 기록
 - `mode`에 결정된 모드 기록
 
-## 실행 워크플로우
+## Solo 모드 워크플로우
 
 ### ① Round 1 — 3개 보안 렌즈 독립 병렬 분석
 
@@ -95,7 +95,21 @@ Round 1 + Round 2 결과를 통합한다:
 - **심각도 상향 항목**: Round 2에서 재분류된 이슈
 - **수정 방법**: 각 취약점에 대한 구체적 수정 방향
 
-## 결과물 저장
+**INLINE_COMMENTS**: 파일 경로가 있는 취약점은 `파일명:줄번호` 형식으로 위치를 명시한다:
+```
+src/auth.ts:42 — [Critical] SQL 인젝션: 파라미터 미검증 쿼리 직접 삽입
+src/api/user.ts:88 — [High] 민감 정보 응답 과다 노출: password 필드 포함
+```
+
+**--ref 비교** (`--ref <session_id>`가 있을 때):
+- 이전 세션의 `.crb/outputs/{session_id}.md`를 읽어 취약점 목록을 추출한다
+- 미해결 취약점 강조:
+  ```
+  ⚠️ 미해결 취약점 (이전 세션 crb-YYYYMMDD-HHMMSS에서 지적):
+    - src/auth.ts:42 — [Critical] SQL 인젝션 → 여전히 미해결
+  ```
+
+## 결과물 저장 (Solo)
 
 `crb-output` 스킬 규칙에 따라 저장한다:
 
@@ -107,6 +121,7 @@ Round 1 + Round 2 결과를 통합한다:
 세션 ID: <session_id>
 커맨드: security
 생성일: <날짜>
+모드: solo
 대상: <파일 경로 또는 설명>
 렌즈: OWASP Top 10 / 인증·인가 / 데이터 노출
 
@@ -114,6 +129,12 @@ Round 1 + Round 2 결과를 통합한다:
 
 - **원본 입력**: "<인수 전체>"
 - **점검 대상**: <파일 경로 또는 설명>
+- **참조 세션**: <session_id> | 없음
+
+## INLINE_COMMENTS
+
+src/auth.ts:42 — [Critical] SQL 인젝션
+src/api/user.ts:88 — [High] 민감 정보 응답 노출
 
 ## 취약점 목록
 
@@ -127,6 +148,10 @@ Round 1 + Round 2 결과를 통합한다:
 ...
 
 ### 🔵 Low
+...
+
+## 미해결 취약점 (--ref 사용 시)
+
 ...
 
 ## 렌즈별 발견
@@ -156,8 +181,52 @@ Round 1 + Round 2 결과를 통합한다:
 
 2. `.crb/runs/run-log.jsonl`에 한 줄 append:
    ```json
-   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"security","topic":"<대상>","status":"completed","user_input":{"raw":"<원본 입력>","flags":[]},"lenses":["owasp","auth-flow","data-exposure"],"output_file":".crb/outputs/<session_id>.md"}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"security","topic":"<대상>","status":"completed","mode":"solo","user_input":{"raw":"<원본 입력>","flags":[]},"lenses":["owasp","auth-flow","data-exposure"],"ref_session":"<session_id>|null","output_file":".crb/outputs/<session_id>.md"}
    ```
+
+### forge 연결
+
+완료 후 Critical/High 취약점이 있을 때 선택지를 출력한다:
+
+```
+🔴 Critical 1건, 🟡 High 2건이 발견되었습니다.
+
+> forge로 취약점 수정 실행
+> 완료 (직접 수정)
+```
+
+forge 선택 시: 발견된 취약점 목록을 `forge`에 컨텍스트로 전달하고 `--no-git-check` 없이 실행한다. (취약점 없거나 Low만 있으면 선택지 생략)
+
+---
+
+## Team 모드 워크플로우
+
+Agent Teams 기반 Teammate 공격 체인 토론.
+
+### Teammate 구성
+
+| Teammate | 모델 | 렌즈 |
+|----------|------|------|
+| OWASP | Sonnet | OWASP Top 10 |
+| AuthFlow | Sonnet | 인증/인가 흐름 |
+| DataExp | Sonnet | 데이터 노출 |
+
+### ① Round 1 — Teammate 독립 병렬 분석
+
+OWASP, AuthFlow, DataExp를 **동시에** 스폰한다 — 순차 실행 금지.
+
+### ② 공격 체인 토론
+
+Round 1 완료 후:
+1. 각 Teammate가 다른 두 Teammate의 결과를 읽고 공격 체인 가능성을 직접 토론한다
+2. Lead가 토론 수렴 감시 (3분 타임아웃)
+
+### ③ Lead 종합 및 저장
+
+Lead가 결과를 종합한다. forge 연결 선택지는 Solo와 동일하게 제공.
+결과물 저장 형식은 Solo와 동일, `"mode":"team"` 기록.
+
+---
 
 ## Gotchas
 
@@ -165,3 +234,5 @@ Round 1 + Round 2 결과를 통합한다:
 - 취약점 없을 때도 "이상 없음 항목" 섹션에 점검한 내용을 명시할 것
 - 코드 없이 기능 설명만 받은 경우 잠재적 설계 취약점 관점으로 분석
 - Critical은 실제로 악용 가능한 취약점에만 붙일 것 — 남용 금지
+- --ref 세션 파일이 없으면 에러 없이 비교 없이 진행
+- INLINE_COMMENTS는 파일 위치를 특정할 수 있을 때만 출력
