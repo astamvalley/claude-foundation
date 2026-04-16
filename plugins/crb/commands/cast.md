@@ -26,7 +26,7 @@ skills:
 - `--wait`: 포그라운드 강제 실행
 - `--depth quick|standard|deep`: 실행 깊이 지정 (생략 시 선택 요청)
 - `--lens <A>,<B>,<C>`: 렌즈 직접 지정 (생략 시 자동 선택)
-- `--ref <session_id>`: 이전 cast 세션 결과를 컨텍스트로 참조
+- `--ref <session_id>`: 이전 cast 세션 결과를 컨텍스트로 참조. 해당 세션의 `.crb/outputs/{session_id}.md`를 읽어 이전 합의·긴장점을 Explore 프롬프트에 포함한다. 연속된 기획 반복 시 이전 결과를 발전시킬 수 있다
 - 플래그 없음: 기본값 (모드 및 깊이 선택 요청)
 
 ## 모드 결정

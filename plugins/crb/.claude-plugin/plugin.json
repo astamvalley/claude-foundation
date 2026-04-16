@@ -1,7 +1,7 @@
 {
   "name": "crb",
   "description": "Crucible — refines ideas and code through multi-angle analysis, consensus framing, and adversarial review. Commands: cast, mold, assay, challenge, security, debug, forge, auto.",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": {
     "name": "astamvalley"
   }

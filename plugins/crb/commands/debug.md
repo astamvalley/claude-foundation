@@ -54,24 +54,33 @@ skills:
 
 3개 에이전트를 **동시에** 실행한다 — 순차 실행 금지:
 
-| 에이전트 | 관점 | 분석 내용 |
+| 에이전트 | 담당 | 분석 내용 |
 |---------|------|----------|
-| Agent A | 원인 분석 | 에러의 근본 원인, 트리거 조건, 재현 조건 |
-| Agent B | 영향 범위 | 이 에러로 영향받는 다른 기능/모듈, 데이터 정합성 위험 |
-| Agent C | 수정 방향 | 즉각 수정 방법, 임시 우회책, 재발 방지 |
+| Root Cause | Codex > Claude | 에러의 근본 원인, 트리거 조건, 재현 조건, 스택트레이스/로그 분석 |
+| Impact | Gemini > Claude | 이 에러로 영향받는 다른 기능/모듈, 데이터 정합성 위험 |
+| Fix | Claude | 즉각 수정 방법, 임시 우회책, 재발 방지 |
 
-Agent B는 Codex 우선 실행:
-1. Claude Code Codex 플러그인 런타임:
-   ```bash
-   CODEX_COMPANION=$(find ~/.claude/plugins -name "codex-companion.mjs" 2>/dev/null | head -1)
-   [ -n "$CODEX_COMPANION" ] && node "$CODEX_COMPANION" task "<분석 프롬프트>"
-   ```
-2. Codex CLI: `codex exec --full-auto "IMPORTANT: Non-interactive. <분석 프롬프트>"`
-3. Claude Agent (코드 분석 전문가 페르소나)
+**Root Cause (Codex 우선):**
+```bash
+CODEX_COMPANION=$(find ~/.claude/plugins -name "codex-companion.mjs" 2>/dev/null | head -1)
+[ -n "$CODEX_COMPANION" ] && node "$CODEX_COMPANION" task "<원인 분석 프롬프트>"
+# 없으면: codex exec --full-auto "IMPORTANT: Non-interactive. <원인 분석 프롬프트>"
+# Codex 없으면: Claude Agent (코드 분석 전문가 페르소나)
+```
 
-### ③ 진단 통합
+**Impact (Gemini 우선):**
+```bash
+printf '%s' "<영향 범위 분석 프롬프트>" | gemini -p "" -o text --approval-mode yolo
+# Gemini 없으면: Claude Agent
+```
 
-3개 결과를 통합해서 출력한다:
+**Fix:** Claude Agent
+
+### ③ 교차 검증 및 통합
+
+Lead가 3개 결과를 교차 검증 후 종합한다:
+- Root Cause와 Fix가 정합성이 있는가 (원인과 수정이 맞는가)
+- Impact 범위를 Fix가 모두 커버하는가
 - **핵심 원인**: 한 줄 요약
 - **수정 방법**: 즉시 적용 가능한 구체적 코드/설정 변경
 - **확인 사항**: 수정 후 검증해야 할 것들
@@ -136,4 +145,5 @@ Agent B는 Codex 우선 실행:
 - 에러 메시지만 있고 코드 없어도 분석 시작할 것 — 코드 없다고 중단 금지
 - 수정 방법은 반드시 구체적으로 — "확인해보세요" 수준 금지
 - 빠른 진단이 목적 — cast/assay처럼 깊이 조절 옵션 없음
-- Codex 오류 시 Claude Agent로 조용히 대체하고 계속 진행
+- Codex/Gemini 오류 시 Claude Agent로 조용히 대체하고 계속 진행
+- 교차 검증에서 원인과 수정이 불일치하면 Fix를 재실행할 것
