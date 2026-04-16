@@ -53,6 +53,7 @@ git pull
 
 | 커맨드 | 역할 |
 |--------|------|
+| `/crb:help [커맨드명]` | 전체 커맨드 요약 또는 커맨드별 상세 도움말 |
 | `/crb:setup` | 환경 세팅 (RTK · Agent Teams · Codex · Gemini) |
 | `/crb:stats` | 커맨드별 사용 횟수·모드 분포 통계 |
 | `/crb:status` | 실행 이력 조회 |
@@ -307,7 +308,8 @@ plugins/crb/
 │   ├── stats.md             # /crb:stats
 │   ├── setup.md             # /crb:setup
 │   ├── status.md            # /crb:status
-│   └── result.md            # /crb:result
+│   ├── result.md            # /crb:result
+│   └── help.md              # /crb:help
 └── skills/                  # 내부 스킬
     ├── crb-team/            # Solo/Team 모드 결정 규칙
     ├── crb-explore/         # Explore 단계 병렬 실행 규칙
