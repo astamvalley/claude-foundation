@@ -175,7 +175,7 @@ Lead가 3분 타임아웃 감시.
 
 3. `.crb/runs/run-log.jsonl`에 한 줄 append:
    ```json
-   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"challenge","topic":"<대상 제목>","status":"completed","mode":"solo|team","user_input":{"raw":"<원본 입력>","flags":[]},"reviewers":["tech-skeptic","biz-skeptic","reality-check"],"output_file":".crb/outputs/<session_id>.md"}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"challenge","topic":"<대상 제목>","status":"completed","mode":"<solo|team>","user_input":{"raw":"<원본 입력>","flags":[]},"reviewers":["tech-skeptic","biz-skeptic","reality-check"],"output_file":".crb/outputs/<session_id>.md"}
    ```
 
 ## Gotchas

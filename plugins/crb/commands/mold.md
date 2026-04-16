@@ -173,7 +173,7 @@ src/
 
 2. `.crb/runs/run-log.jsonl`에 한 줄 append:
    ```json
-   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"mold","topic":"<기능명>","status":"completed","mode":"solo","user_input":{"raw":"<원본 입력>","flags":[]},"output_file":".crb/outputs/<session_id>.md"}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"mold","topic":"<기능명>","status":"completed","mode":"<solo|team>","user_input":{"raw":"<원본 입력>","flags":[]},"output_file":".crb/outputs/<session_id>.md"}
    ```
 
 ---

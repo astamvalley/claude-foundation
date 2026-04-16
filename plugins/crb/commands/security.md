@@ -181,7 +181,7 @@ src/api/user.ts:88 — [High] 민감 정보 응답 노출
 
 2. `.crb/runs/run-log.jsonl`에 한 줄 append:
    ```json
-   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"security","topic":"<대상>","status":"completed","mode":"solo","user_input":{"raw":"<원본 입력>","flags":[]},"lenses":["owasp","auth-flow","data-exposure"],"ref_session":"<session_id>|null","output_file":".crb/outputs/<session_id>.md"}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"security","topic":"<대상>","status":"completed","mode":"<solo|team>","user_input":{"raw":"<원본 입력>","flags":[]},"lenses":["owasp","auth-flow","data-exposure"],"ref_session":"<session_id>|null","output_file":".crb/outputs/<session_id>.md"}
    ```
 
 ### forge 연결

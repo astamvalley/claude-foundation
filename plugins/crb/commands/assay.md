@@ -216,7 +216,7 @@ src/auth.ts:87 — [Critical] SQL 인젝션 가능성
 
 2. `.crb/runs/run-log.jsonl`에 한 줄 append:
    ```json
-   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"assay","topic":"<대상>","status":"completed","mode":"solo","user_input":{"raw":"<원본 입력>","flags":[]},"reviewers":["claude-architecture","codex-logic","claude-security"],"ref_session":"<session_id>|null","output_file":".crb/outputs/<session_id>.md"}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"assay","topic":"<대상>","status":"completed","mode":"<solo|team>","user_input":{"raw":"<원본 입력>","flags":[]},"reviewers":["claude-architecture","codex-logic","claude-security"],"ref_session":"<session_id>|null","output_file":".crb/outputs/<session_id>.md"}
    ```
 
 ---
