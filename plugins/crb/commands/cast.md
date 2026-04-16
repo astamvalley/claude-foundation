@@ -221,6 +221,8 @@ Lens-A,B,C Explore 완료 후:
 
 ### ③ Design — Lead 종합
 
+`--depth quick`을 포함한 모든 depth에서 실행한다 (Solo quick과 달리 Team quick은 Design을 생략하지 않는다).
+
 Lead(현재 세션)가 Teammate 토론 결과를 기반으로 실행 가능한 방향을 제시한다.
 
 Solo 모드 Design과 동일한 출력 구조:
@@ -232,7 +234,7 @@ Solo 모드 Design과 동일한 출력 구조:
 - `phases.design.chosen_direction`
 - `phases.design.rejected_alternatives`
 
-### ④ Challenge — Critic Teammate
+### ④ Challenge — Critic Teammate (`--depth standard` 이상)
 
 `--depth standard` 이상이면 Critic (Sonnet) Teammate가 Design을 비판적으로 검토한다.
 
