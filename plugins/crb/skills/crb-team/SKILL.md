@@ -75,10 +75,11 @@ mode = "solo" | "team"
 |--------|:----:|:----:|
 | cast | v1.1.0 | v1.3.0 |
 | mold | v1.1.0 | v1.7.0 |
+| forge | v1.4.0 | v1.8.0 |
+| smelt | v2.0.0 | v2.0.0 (--team/--solo를 내부 mold·forge에 전달) |
 | assay | v1.1.0 | v1.5.0 |
 | security | v1.1.0 | v1.5.0 |
 | challenge | v1.1.0 | v1.7.0 |
-| forge | v1.4.0 | v1.8.0 |
 | debug | v1.1.0 | Solo 고정 |
 
 Team 모드가 아직 구현되지 않은 커맨드에서 `--team`을 사용하면:

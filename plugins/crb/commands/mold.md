@@ -28,7 +28,13 @@ skills:
 
 - `--team`: Team 모드 즉시 실행
 - `--solo`: Solo 모드 즉시 실행
-- `--depth quick|standard|deep`: 실행 깊이 지정
+- `--depth quick|standard|deep`: 실행 깊이 지정 (생략 시 `standard`)
+
+| depth | 동작 |
+|-------|------|
+| `quick` | ①scan → ②Explore(단축 프롬프트, 에이전트당 핵심 3가지) → ③Synthesize(간략, ASCII 다이어그램 생략 가능) |
+| `standard` | 전체 3단계 (기본값) |
+| `deep` | ②Explore에서 에이전트당 추가 반복 분석, ③Synthesize에서 트레이드오프 깊이 확장 |
 
 ## 모드 결정
 

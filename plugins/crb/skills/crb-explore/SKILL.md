@@ -6,7 +6,7 @@ user-invocable: false
 
 # crb-explore
 
-cast 커맨드의 Explore 단계에서만 사용한다.
+cast, mold 커맨드의 Explore 단계에서 사용한다.
 
 ## 모델 감지
 

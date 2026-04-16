@@ -104,7 +104,7 @@ forge 완료 시 `.crb/outputs/{session_id}.md`에 저장한다:
 
 세션 ID: <session_id>
 커맨드: forge
-모드: solo
+모드: solo | team
 TDD: false | true
 생성일: <날짜>
 
