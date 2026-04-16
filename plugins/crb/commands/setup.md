@@ -177,14 +177,14 @@ Explore 구성: Claude + Codex + Claude
   /crb:auto "하고 싶은 작업을 자연어로 설명하세요"
 
 커맨드를 직접 사용하려면:
-  기획·방향   →  /crb:cast <주제>
-  구조 설계   →  /crb:mold <기능명>
-  코드 구현   →  /crb:forge <기능명>
-  전체 파이프 →  /crb:smelt "기능 명세"
-  코드 리뷰   →  /crb:assay --staged
-  보안 점검   →  /crb:security --staged
-  적대적 리뷰 →  /crb:challenge <주제>
-  에러 분석   →  /crb:debug "에러메시지"
+  기획·방향   →  /crb:cast <주제>        "어떻게 할지 방향이 안 잡혔을 때"
+  구조 설계   →  /crb:mold <기능명>      "방향은 잡혔고 코드 짜기 전에 설계할 때"
+  코드 구현   →  /crb:forge <기능명>     "설계 끝났고 바로 구현할 때"
+  전체 파이프 →  /crb:smelt "기능 명세"  "설계→구현→리뷰를 한 번에 자동으로"
+  코드 리뷰   →  /crb:assay --staged     "작성한 코드 품질 점검"
+  보안 점검   →  /crb:security --staged  "인증·결제 등 민감한 기능 완성 후"
+  적대적 리뷰 →  /crb:challenge <주제>   "기획·설계 결과물의 약점을 찾을 때"
+  에러 분석   →  /crb:debug "에러메시지" "에러 원인을 빠르게 파악할 때"
   사용 통계   →  /crb:stats
 ─────────────────────────────────────────
 ```
