@@ -1,7 +1,7 @@
 {
   "name": "crb",
-  "description": "Crucible — refines ideas and code through multi-angle analysis, consensus framing, and adversarial review. Commands: cast, mold, assay, challenge, security, debug, forge, auto.",
-  "version": "1.8.0",
+  "description": "Crucible — full SDLC coverage from planning to implementation and review. Dual Solo/Team mode, adversarial review, and natural language entry. Commands: cast, mold, forge, assay, security, challenge, debug, auto.",
+  "version": "2.0.0",
   "author": {
     "name": "astamvalley"
   }

@@ -182,6 +182,7 @@ Explore 구성: Claude + Codex + Claude
   코드 구현   →  /crb:forge <기능명>
   코드 리뷰   →  /crb:assay --staged
   보안 점검   →  /crb:security --staged
+  적대적 리뷰 →  /crb:challenge <주제>
   에러 분석   →  /crb:debug "에러메시지"
 ─────────────────────────────────────────
 ```
