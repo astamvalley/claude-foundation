@@ -118,7 +118,7 @@ Explore 구성: <Agent A> / <Agent B> / <Agent C>
 
 ## mold 출력 파싱 규칙
 
-mold 출력 파일(`.crb/outputs/{session_id}-mold.md` 또는 `{session_id}.md`)에는 반드시 `## 구현 스펙` 섹션이 포함된다:
+mold 출력 파일(`.crb/outputs/{session_id}.md`)에는 반드시 `## 구현 스펙` 섹션이 포함된다:
 
 ```markdown
 ## 구현 스펙

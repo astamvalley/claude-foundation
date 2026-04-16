@@ -30,7 +30,7 @@ ls .crb/runs/*-checkpoint.json 2>/dev/null
   "completed_steps": ["mold"],
   "next_step": "forge",
   "context": {
-    "mold_output": ".crb/outputs/crb-YYYYMMDD-HHMMSS-mold.md"
+    "mold_output": ".crb/outputs/crb-YYYYMMDD-HHMMSS.md"
   },
   "saved_at": "2026-04-14T14:32:00Z"
 }
