@@ -185,4 +185,3 @@ forge 재실행 선택 시: forge를 `--pipeline`으로 재실행 (assay 이슈 
 - 체크포인트는 각 단계 완료 시 즉시 저장 — 완료 시 삭제
 - run-log.jsonl 기록은 smelt 전체 완료 시 한 번만 append
 - rollback은 반드시 사용자 확인 후 실행 — git reset --hard는 파괴적 연산
-- --holdout 항목은 mold/forge 단계에서 절대 노출하지 않는다

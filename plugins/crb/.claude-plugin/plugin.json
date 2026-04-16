@@ -1,7 +1,7 @@
 {
   "name": "crb",
   "description": "Crucible — full SDLC coverage from planning to implementation and review. Dual Solo/Team mode, adversarial review, and natural language entry. Commands: cast, mold, forge, smelt, assay, security, challenge, debug, auto, stats.",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "author": {
     "name": "astamvalley"
   }
