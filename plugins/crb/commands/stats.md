@@ -2,6 +2,8 @@
 description: >
   crb 사용 통계를 출력한다. run-log.jsonl을 분석해 커맨드별 사용 횟수,
   모드 분포, 자주 쓰는 커맨드 순위를 보여준다.
+skills:
+  - crb-output
 ---
 
 # stats

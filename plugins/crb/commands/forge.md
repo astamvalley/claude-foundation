@@ -53,7 +53,7 @@ skills:
 - 세션 ID: `crb-{YYYYMMDD}-{HHMMSS}`
 - `user_input.raw`에 원본 입력 기록
 - `user_input.flags`에 감지된 플래그 목록 기록
-- `mode`: `"solo"`
+- `mode`: 모드 결정 단계에서 확정된 값 (`"solo"` | `"team"`)
 
 ---
 
@@ -148,7 +148,7 @@ forge 구성 (TDD): Codex(테스트) / Claude(구현) / Gemini(Guard)
 `crb-output` 스킬 규칙에 따라 저장한다:
 
 1. `crb-forge` 스킬 형식으로 `.crb/outputs/{session_id}.md` 생성
-2. `.crb/runs/run-log.jsonl`에 한 줄 append (`status: completed`, `"mode":"solo"`)
+2. `.crb/runs/run-log.jsonl`에 한 줄 append (`status: completed`, `mode`는 세션 초기화 시 확정된 값)
 3. 저장 경로 출력:
    ```
    결과 저장됨: .crb/outputs/{session_id}.md
@@ -165,8 +165,6 @@ forge 구성 (TDD): Codex(테스트) / Claude(구현) / Gemini(Guard)
 > security로 보안 점검 실행
 > 완료 (추가 리뷰 불필요)
 ```
-
----
 
 ---
 

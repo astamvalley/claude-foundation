@@ -136,7 +136,7 @@ Lead가 3개 결과를 교차 검증 후 종합한다:
 
 2. `.crb/runs/run-log.jsonl`에 한 줄 append:
    ```json
-   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"debug","topic":"<에러 요약>","status":"completed","user_input":{"raw":"<원본 입력>","flags":[]},"output_file":".crb/outputs/<session_id>.md"}
+   {"timestamp":"<ISO8601>","session_id":"crb-YYYYMMDD-HHMMSS","command":"debug","mode":"solo","topic":"<에러 요약>","status":"completed","user_input":{"raw":"<원본 입력>","flags":[]},"output_file":".crb/outputs/<session_id>.md"}
    ```
 
 ## Gotchas
