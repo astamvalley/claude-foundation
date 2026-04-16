@@ -22,14 +22,14 @@ skills:
 - `--pipeline`: smelt 내부 호출용. 완료 후 선택지 메시지를 출력하지 않는다
 - `--no-git-check`: git 안전 검사를 건너뛴다 (스크립트/smelt 내부 호출용)
 - `--solo`: Solo 모드 즉시 실행
-- `--team`: v1.8.0에서 구현 예정
+- `--team`: Team 모드 즉시 실행
 
 ## 모드 결정
 
 `crb-team` 스킬의 규칙에 따라 Solo/Team 모드를 결정한다.
 
 - **Solo 모드**: 아래 [Solo 모드 워크플로우](#solo-모드-워크플로우) 진행
-- **Team 모드**: v1.8.0에서 구현 예정. 현재는 Solo 모드로 동작하며 "ℹ️ forge Team 모드는 준비 중입니다. Solo 모드로 실행합니다." 출력
+- **Team 모드**: 아래 [Team 모드 워크플로우](#team-모드-워크플로우) 진행
 
 ## 입력 파싱
 
@@ -165,6 +165,59 @@ forge 구성 (TDD): Codex(테스트) / Claude(구현) / Gemini(Guard)
 > security로 보안 점검 실행
 > 완료 (추가 리뷰 불필요)
 ```
+
+---
+
+---
+
+## Team 모드 워크플로우
+
+Agent Teams 기반 실시간 토론 구현.
+
+### Teammate 구성 (일반 모드)
+
+| Teammate | 모델 | 역할 | 쓰기 권한 |
+|----------|------|------|----------|
+| Implementer | Opus | 코드 구현 | Write/Edit (전용) |
+| Architect | Sonnet | 아키텍처 관점 실시간 피드백 | Read-only |
+| Guard | Sonnet | 버그·보안 관점 실시간 피드백 | Read-only |
+
+### Teammate 구성 (--tdd 모드, 역할 재정의)
+
+| Teammate | 모델 | 역할 | 쓰기 권한 |
+|----------|------|------|----------|
+| Tester | Sonnet | 테스트 작성 전담 | 테스트 파일 한정 |
+| Implementer | Opus | 구현 전담 | 구현 코드 전용 |
+| Guard | Sonnet | 테스트 + 구현 동시 리뷰 | Read-only |
+
+### ① git 안전 검사 및 프로젝트 컨텍스트 감지
+
+Solo 모드와 동일하게 진행한다.
+
+### ② 실시간 토론 구현 (일반 모드)
+
+Implementer가 코드를 작성하는 동안 Architect와 Guard가 실시간으로 읽고 피드백한다:
+
+```
+Architect→Implementer: "이 구조보다 이렇게 하면 확장성 좋아져"
+Guard→Implementer: "여기 NPE 가능성 있어, null 체크 필요"
+Implementer→Architect: "그러면 인터페이스 분리할게"
+```
+
+Implementer가 피드백을 반영하며 토론하면서 구현을 완성한다.
+
+### ② TDD 흐름 (--tdd 모드)
+
+```
+Tester→Implementer: "이 테스트 통과시켜봐"
+Implementer→Tester: "이 테스트 케이스 의도가 뭐야?"
+Guard→Tester,Implementer: "둘 다 경계 조건 빠졌어"
+```
+
+### ③ 결과물 저장
+
+Solo 모드와 동일한 형식, `"mode":"team"` 기록.
+`--pipeline` 동작도 Solo와 동일하게 적용한다.
 
 ---
 
