@@ -65,6 +65,12 @@ crb-{YYYYMMDD}-{HHMMSS}
 
 `.crb/outputs/{session_id}.md` 에 저장한다.
 
+파일 저장 완료 후 Finder에서 해당 파일을 열어준다:
+
+```bash
+open -R ".crb/outputs/{session_id}.md"
+```
+
 ## 출력 파일 구조
 
 ```markdown
