@@ -54,8 +54,8 @@ crb-{YYYYMMDD}-{HHMMSS}
   ```json
   "team_config": {
     "teammates": [
-      {"name": "Lens-A", "model": "haiku", "role": "렌즈 1 분석"},
-      {"name": "Lens-B", "model": "haiku", "role": "렌즈 2 분석"},
+      {"name": "Lens-A", "model": "sonnet", "role": "렌즈 1 분석"},
+      {"name": "Lens-B", "model": "sonnet", "role": "렌즈 2 분석"},
       {"name": "Critic", "model": "sonnet", "role": "Challenge"}
     ]
   }
