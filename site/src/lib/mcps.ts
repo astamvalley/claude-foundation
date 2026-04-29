@@ -501,4 +501,131 @@ export const mcps: Mcp[] = [
       },
     ],
   },
+  {
+    name: 'notion',
+    displayName: 'Notion',
+    maintainer: 'Notion',
+    maintainerUrl: 'https://developers.notion.com/docs/get-started-with-mcp',
+    description: 'Notion 워크스페이스의 페이지와 데이터베이스를 Claude가 직접 읽고 쓰게 하는 Notion 공식 Remote MCP. OAuth로 인증한다.',
+    longDescription:
+      'Notion이 직접 운영하는 공식 Remote MCP 서버다.\n' +
+      'Claude가 워크스페이스의 페이지·데이터베이스 검색, 페이지 생성/수정, 데이터소스 쿼리, 댓글 작성 등을 자연어로 처리할 수 있다.\n\n' +
+      '콘텐츠 입출력은 JSON이 아닌 Notion-flavored Markdown 기반이라 토큰 사용이 효율적이고, callout·columns·중첩 페이지 같은 Notion 고유 블록도 그대로 표현된다.\n\n' +
+      '인증은 OAuth 방식이며 Bearer 토큰은 지원하지 않는다(헤드리스 자동화는 부적합).\n' +
+      '권한은 사용자 본인이 워크스페이스에서 가진 범위로 제한되며, query-data-source 등 일부 고급 도구는 Notion AI / Business / Enterprise 플랜이 필요할 수 있다.\n\n' +
+      'OAuth 의존이나 플랜 게이팅이 부담스럽거나 로컬 우선의 노트 환경을 선호한다면 Obsidian과 공식 Obsidian CLI를 대안으로 고려해볼 만하다. Obsidian CLI는 1.12.0 이후 데스크탑 앱에 번들된 공식 도구로, Claude Code가 Bash로 호출해 데일리 노트, 검색, 태그, 프로퍼티 등을 직접 다룰 수 있다.',
+    capabilities: [
+      {
+        title: '시맨틱 검색',
+        description: '워크스페이스 전체와 연결된 외부 커넥트 앱을 자연어 질문으로 검색한다.',
+      },
+      {
+        title: '페이지 생성',
+        description: 'AI 친화적으로 재설계된 create-pages 도구로 자연어 흐름에 맞춰 새 페이지를 만든다.',
+      },
+      {
+        title: '페이지 수정',
+        description: 'Notion-flavored Markdown으로 페이지 콘텐츠와 속성을 업데이트한다.',
+      },
+      {
+        title: '페이지 / 블록 조회',
+        description: '특정 페이지, 블록, 데이터베이스를 조회한다.',
+      },
+      {
+        title: '데이터베이스 쿼리',
+        description: '데이터소스를 필터·정렬 조건으로 조회한다. Notion AI / Enterprise 플랜이 필요할 수 있다.',
+      },
+      {
+        title: '댓글 작성',
+        description: '페이지나 블록에 댓글을 남긴다.',
+      },
+      {
+        title: '페이지 이동 / 정리',
+        description: '페이지를 다른 위치로 이동한다.',
+      },
+      {
+        title: '워크스페이스 멤버 조회',
+        description: '워크스페이스 사용자 정보와 프로필을 조회한다.',
+      },
+    ],
+    tags: ['official', 'notion', 'remote'],
+    repoUrl: 'https://github.com/makenotion/notion-mcp-server',
+    setup: [
+      {
+        target: 'Claude Desktop — Remote MCP (권장)',
+        description:
+          '~/Library/Application Support/Claude/claude_desktop_config.json 에 아래 내용을 추가한다.\n' +
+          '설정 후 Claude를 재시작하고, /mcp 커맨드에서 notion → Authenticate를 클릭해 OAuth 로그인을 완료하세요.',
+        type: 'config',
+        label: 'claude_desktop_config.json',
+        code: JSON.stringify(
+          {
+            mcpServers: {
+              notion: {
+                type: 'http',
+                url: 'https://mcp.notion.com/mcp',
+              },
+            },
+          },
+          null,
+          2
+        ),
+        note: 'API 키 불필요. OAuth로 인증하며 동의 화면에서 연결할 워크스페이스를 선택합니다.',
+      },
+      {
+        target: 'Claude Code',
+        description:
+          '아래 명령어로 Remote MCP를 추가한다. API 키 없이 OAuth로 인증한다.\n' +
+          '설정 후 /mcp 커맨드에서 notion → Authenticate를 클릭해 로그인하세요.',
+        type: 'cmd',
+        label: 'terminal',
+        code: 'claude mcp add --transport http notion https://mcp.notion.com/mcp',
+        note: '기본값은 현재 프로젝트에만 등록(local). 모든 프로젝트에서 쓰려면 --scope user를 추가하세요.',
+      },
+    ],
+    alternative: {
+      name: 'Notion MCP (로컬 stdio)',
+      description:
+        'OAuth 대신 Notion Internal Integration Token으로 인증하는 로컬 stdio 방식이다.\n' +
+        'CI/cron 등 헤드리스 자동화 환경에서 OAuth가 부적합할 때 활용한다.\n' +
+        'Notion 측은 향후 로컬 서버를 sunset할 수 있다고 예고했으므로, 가능하면 Remote MCP를 우선 사용하는 것을 권장한다.\n\n' +
+        '토큰은 notion.so/my-integrations 에서 Internal Integration을 만들어 발급받는다(접두사 ntn_).\n' +
+        '발급 후 사용할 페이지·데이터베이스를 해당 integration에 명시적으로 share해야 접근할 수 있다. 루트 페이지 하나를 공유하고 그 하위를 사용하는 패턴이 일반적이다.',
+      setup: [
+        {
+          target: 'Claude Desktop',
+          description:
+            '~/Library/Application Support/Claude/claude_desktop_config.json 에 아래 내용을 추가한다.\n' +
+            'NOTION_TOKEN을 발급받은 값으로 교체하세요.',
+          type: 'config',
+          label: 'claude_desktop_config.json',
+          code: JSON.stringify(
+            {
+              mcpServers: {
+                notion: {
+                  command: 'npx',
+                  args: ['-y', '@notionhq/notion-mcp-server'],
+                  env: {
+                    NOTION_TOKEN: 'ntn_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                  },
+                },
+              },
+            },
+            null,
+            2
+          ),
+          note: '토큰은 ntn_ 접두사로 시작합니다.',
+        },
+        {
+          target: 'Claude Code',
+          description:
+            '토큰을 커맨드에 직접 입력하면 shell history에 남으므로, 환경 변수를 먼저 export하고 참조하는 방식을 권장한다.',
+          type: 'cmd',
+          label: 'terminal',
+          code: 'export NOTION_TOKEN=ntn_your_token_here\nclaude mcp add notion -e NOTION_TOKEN=$NOTION_TOKEN -- npx -y @notionhq/notion-mcp-server',
+          note: '기본값은 현재 프로젝트에만 등록(local). 모든 프로젝트에서 쓰려면 --scope user를 추가하세요.',
+        },
+      ],
+    },
+  },
 ]
